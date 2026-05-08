@@ -7,114 +7,129 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#111;min-height:100vh}
+
+/* ── Header ── */
 .hdr{background:linear-gradient(135deg,#0f0c29,#302b63);color:#fff;padding:14px 16px 12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.35)}
-.hdr h1{font-size:15px;font-weight:700;letter-spacing:-.2px}
-.hdr-meta{display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}
+.hdr h1{font-size:14px;font-weight:700;letter-spacing:-.2px;line-height:1.3}
+.hdr-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
 .hdr-sub{font-size:11px;color:rgba(255,255,255,.4)}
-.hdr-date{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.35);border-radius:20px;padding:3px 10px;font-size:11px;color:#fbbf24;font-weight:600}
+.hdr-date{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.35);border-radius:20px;padding:3px 10px;font-size:11px;color:#fbbf24;font-weight:600;white-space:nowrap}
+
+/* ── Tabs ── */
 .tabs{background:#1a1748;display:flex;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{padding:11px 18px;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent;transition:all .2s;user-select:none}
+.tab{padding:11px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent;transition:all .2s;user-select:none}
 .tab.on{color:#fff;border-bottom-color:#f59e0b}
-.wrap{padding:14px;max-width:1100px;margin:0 auto}
 
-/* Cards */
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+/* ── Layout ── */
+.wrap{padding:12px;max-width:1100px;margin:0 auto}
+.tab-pane{display:none}
+.tab-pane.on{display:block}
+
+/* ── Summary cards ── */
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 @media(min-width:600px){.sum-grid{grid-template-columns:repeat(4,1fr)}}
-.sum-card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.sum-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa}
-.sum-value{font-size:26px;font-weight:800;margin:4px 0 2px;line-height:1}
-.sum-sub{font-size:11px;color:#aaa}
+.sum-card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.sum-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa}
+.sum-value{font-size:24px;font-weight:800;margin:4px 0 2px;line-height:1}
+.sum-sub{font-size:10px;color:#aaa}
 
-/* Progress */
+/* ── Progress ── */
 .prog{background:#e9ecef;border-radius:4px;height:5px;margin-top:7px;overflow:hidden}
 .prog-fill{height:100%;border-radius:4px}
 .fill-g{background:#16a34a}.fill-y{background:#d97706}.fill-r{background:#dc2626}
 .c-g{color:#16a34a}.c-y{color:#d97706}.c-r{color:#dc2626}
 .bg-g{background:#dcfce7;color:#166534}.bg-y{background:#fef3c7;color:#92400e}.bg-r{background:#fee2e2;color:#991b1b}
-.bdg{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.bdg{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
 
-/* Collapsible cards */
+/* ── Cards ── */
 .card{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:8px;overflow:hidden}
-.card-hd{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.card-hd{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;gap:8px}
 .card-hd:hover{background:#fafafa}
-.card-title{font-size:14px;font-weight:700}
-.card-sub{font-size:11px;color:#aaa;margin-top:2px}
+.card-title{font-size:13px;font-weight:700;line-height:1.3}
+.card-sub{font-size:10px;color:#aaa;margin-top:2px}
 .card-body{display:none;border-top:1px solid #f0f0f0}
 .card-body.open{display:block}
-.chev{font-size:11px;color:#aaa;margin-left:8px;transition:transform .2s;display:inline-block;flex-shrink:0}
+.chev{font-size:11px;color:#aaa;transition:transform .2s;display:inline-block;flex-shrink:0;margin-left:4px}
 .chev.open{transform:rotate(180deg)}
 
-/* Nested levels */
+/* ── Nivel grupo (2nd level) ── */
 .nivel-grupo{background:#f8f9fb;border-bottom:1px solid #eee}
-.nivel-grupo-hd{padding:10px 16px 10px 28px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.nivel-grupo-hd{padding:10px 14px 10px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;gap:8px}
 .nivel-grupo-hd:hover{background:#f0f2f5}
-.nivel-grupo-title{font-size:13px;font-weight:700;color:#333}
+.nivel-grupo-title{font-size:12px;font-weight:700;color:#333}
 .nivel-grupo-sub{font-size:10px;color:#aaa;margin-top:1px}
 .nivel-grupo-body{display:none}
 .nivel-grupo-body.open{display:block}
 
-.vrow{padding:8px 16px 8px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5;cursor:pointer}
+/* ── Vendor rows ── */
+.vrow{padding:9px 14px 9px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5;cursor:pointer;gap:8px}
 .vrow:hover{background:#fafafa}
-.vrow-name{font-size:12px;font-weight:600;color:#222}
+.vrow-name{font-size:12px;font-weight:600;color:#222;line-height:1.3}
 .vrow-sub{font-size:10px;color:#bbb}
-.tbl-wrap{overflow-x:auto;display:none;padding-left:44px;background:#fefefe}
-.tbl-wrap.open{display:block}
 
-/* Tables */
-table{width:100%;border-collapse:collapse;font-size:11px}
+/* ── Tables ── */
+.tbl-wrap{overflow-x:auto;display:none}
+.tbl-wrap.open{display:block}
+table{width:100%;border-collapse:collapse;font-size:11px;min-width:380px}
 thead th{background:#f8f9fb;padding:7px 10px;text-align:left;font-size:10px;text-transform:uppercase;color:#999;font-weight:700;white-space:nowrap}
-tbody td{padding:7px 10px;border-bottom:1px solid #f5f5f5;vertical-align:middle}
+tbody td{padding:7px 10px;border-bottom:1px solid #f5f5f5;vertical-align:middle;white-space:nowrap}
 tbody tr:last-child td{border-bottom:none}
 .med{width:28px;font-size:13px}
 
-/* Filters */
-.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.filters select,.filters input{flex:1;min-width:140px;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;background:#fff;outline:none;color:#111}
+/* ── Vendedores level-1 rows (no indent) ── */
+.vrow-top{padding:9px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5;cursor:pointer;gap:8px}
+.vrow-top:hover{background:#fafafa}
+.vrow-top-name{font-size:13px;font-weight:700;color:#222;line-height:1.3}
+.vrow-top-sub{font-size:10px;color:#aaa;margin-top:2px}
+.vrow-top-body{display:none;border-bottom:1px solid #f5f5f5}
+.vrow-top-body.open{display:block}
+
+/* ── Filters ── */
+.filters{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.filters select,.filters input{flex:1;min-width:130px;padding:9px 11px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;background:#fff;outline:none;color:#111}
 .filters select:focus,.filters input:focus{border-color:#302b63}
 
-/* Section label */
+/* ── Section label ── */
 .sec{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#bbb;margin:14px 0 6px}
 
-/* Loading */
+/* ── Loading ── */
 #loading{text-align:center;padding:80px 20px;color:#aaa;font-size:14px;line-height:1.8}
+.empty{color:#bbb;text-align:center;padding:40px;font-size:13px}
 
-/* Tabs */
-.tab-pane{display:none}
-.tab-pane.on{display:block}
-
-/* Reglas */
+/* ── Reglas ── */
 .r-card{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:10px;overflow:hidden}
-.r-head{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0}
+.r-head{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0}
 .r-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
 .r-htitle{font-size:13px;font-weight:700}
-.r-body{padding:14px 16px;font-size:12px;color:#555;line-height:1.8}
+.r-body{padding:14px;font-size:12px;color:#555;line-height:1.8}
 .r-body strong{color:#111;font-weight:700}
-.r-body ul{padding-left:18px;margin-top:6px}
+.r-body ul{padding-left:16px;margin-top:6px}
 .r-body li{margin-bottom:4px}
 .premio-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+@media(max-width:380px){.premio-grid{grid-template-columns:1fr}}
 .premio-row{background:#f8f9fb;border-radius:8px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;border:1px solid #eee}
 .premio-row.hi{border-color:#fcd34d;background:#fffbeb}
 .premio-pct{font-size:11px;font-weight:600;color:#333}
 .premio-val{font-size:12px;font-weight:700;color:#d97706}
 .fecha-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+@media(max-width:400px){.fecha-grid{grid-template-columns:1fr}}
 .fecha-item{background:#f8f9fb;border-radius:8px;padding:10px 12px;border:1px solid #eee}
 .fecha-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:#aaa;font-weight:700}
 .fecha-val{font-size:12px;color:#111;margin-top:4px;font-weight:600;line-height:1.4}
 .cod{display:inline-block;background:#f0f2f5;border:1px solid #e5e7eb;border-radius:4px;padding:1px 6px;font-size:10px;font-family:monospace;margin-right:4px;color:#333}
-.empty{color:#bbb;text-align:center;padding:40px;font-size:13px}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <div style="display:flex;align-items:center;gap:10px">
-    <span style="font-size:22px">⚡</span>
-    <div>
+  <div style="display:flex;align-items:flex-start;gap:10px">
+    <span style="font-size:20px;margin-top:1px">⚡</span>
+    <div style="flex:1;min-width:0">
       <h1>Eleva tu Nivel · Yogurt Griego Pro+</h1>
       <div class="hdr-meta">
-        <span class="hdr-sub">Seguimiento Incentivos · Mayo 2026</span>
-        <span class="hdr-date" id="hdr-fecha" style="display:none">📅 Ventas actualizadas al —</span>
+        <span class="hdr-sub">Incentivos · Mayo 2026</span>
+        <span class="hdr-date" id="hdr-fecha" style="display:none">📅 —</span>
       </div>
     </div>
   </div>
@@ -124,11 +139,11 @@ tbody tr:last-child td{border-bottom:none}
   <div class="tab on" onclick="switchTab('nacional',this)">🏆 Nacional</div>
   <div class="tab"    onclick="switchTab('grupos',this)">📦 Por Región</div>
   <div class="tab"    onclick="switchTab('vendedores',this)">👤 Vendedores</div>
-  <div class="tab"    onclick="switchTab('reglas',this)">📋 Reglas de Juego</div>
+  <div class="tab"    onclick="switchTab('reglas',this)">📋 Reglas</div>
 </div>
 
 <div class="wrap">
-  <div id="loading">⏳ Cargando datos desde Google Sheets…</div>
+  <div id="loading">⏳ Cargando datos…</div>
 
   <div id="app" style="display:none">
 
@@ -138,7 +153,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="sec">🏆 Ranking Vendedores</div>
       <div class="card">
         <div class="card-body open">
-          <div class="tbl-wrap open" id="ranking-tbl" style="padding-left:0"></div>
+          <div class="tbl-wrap open" id="ranking-tbl"></div>
         </div>
       </div>
     </div>
@@ -157,7 +172,7 @@ tbody tr:last-child td{border-bottom:none}
         <select id="fil-grupo" onchange="renderVenTab()">
           <option value="">Todos los grupos</option>
         </select>
-        <input type="text" id="fil-q" placeholder="Buscar vendedor o punto de venta…" oninput="renderVenTab()">
+        <input type="text" id="fil-q" placeholder="Buscar vendedor o PDV…" oninput="renderVenTab()">
       </div>
       <div id="ven-list"></div>
     </div>
@@ -175,14 +190,13 @@ tbody tr:last-child td{border-bottom:none}
             <li>Cumplir al <strong>95% o más</strong> el presupuesto de lácteos.</li>
             <li>Las averías de los siguientes productos <strong>no deben superar el 3%</strong> durante junio:
               <div style="margin-top:6px">
-                <span class="cod">01447</span>Yogurt Griego Pot 450G<br>
-                <span class="cod">01448</span>Yogurt Griego Pot 900G
+                <div><span class="cod">01447</span>Yogurt Griego Pot 450G</div>
+                <div style="margin-top:3px"><span class="cod">01448</span>Yogurt Griego Pot 900G</div>
               </div>
             </li>
           </ul>
         </div>
       </div>
-
       <div class="r-card">
         <div class="r-head">
           <div class="r-icon" style="background:#fef3c7">💰</div>
@@ -197,7 +211,6 @@ tbody tr:last-child td{border-bottom:none}
           </div>
         </div>
       </div>
-
       <div class="r-card">
         <div class="r-head">
           <div class="r-icon" style="background:#e0e7ff">📅</div>
@@ -205,34 +218,22 @@ tbody tr:last-child td{border-bottom:none}
         </div>
         <div class="r-body">
           <div class="fecha-grid">
-            <div class="fecha-item">
-              <div class="fecha-lbl">Medición de ventas</div>
-              <div class="fecha-val">01/05/2026 – 31/05/2026</div>
-            </div>
-            <div class="fecha-item">
-              <div class="fecha-lbl">Medición de averías</div>
-              <div class="fecha-val">01/06/2026 – 30/06/2026</div>
-            </div>
-            <div class="fecha-item">
-              <div class="fecha-lbl">Revisión de resultados y averías</div>
-              <div class="fecha-val">Primeros 5 días hábiles de julio</div>
-            </div>
-            <div class="fecha-item">
-              <div class="fecha-lbl">Pago de premiación</div>
-              <div class="fecha-val">Primera quincena de julio</div>
-            </div>
+            <div class="fecha-item"><div class="fecha-lbl">Medición de ventas</div><div class="fecha-val">01/05 – 31/05/2026</div></div>
+            <div class="fecha-item"><div class="fecha-lbl">Medición de averías</div><div class="fecha-val">01/06 – 30/06/2026</div></div>
+            <div class="fecha-item"><div class="fecha-lbl">Revisión de resultados</div><div class="fecha-val">Primeros 5 días hábiles de julio</div></div>
+            <div class="fecha-item"><div class="fecha-lbl">Pago de premiación</div><div class="fecha-val">Primera quincena de julio</div></div>
           </div>
         </div>
       </div>
     </div>
 
-  </div><!-- /app -->
-</div><!-- /wrap -->
+  </div>
+</div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════
 //  CONFIG
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════
 const CONFIG = {
   CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdTCMBF02k_dz9xmgFzJIJS0wJ7b2GiStLBcJ3MyH25yfwYSqjNMOiM6J476-gGFxUOlWZO_egs-yd/pub?gid=0&single=true&output=csv',
   COL: {
@@ -249,10 +250,8 @@ const CONFIG = {
   VERDE:    90,
   AMARILLO: 70,
 };
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════
 
-// ── State
-// R = { [region]: { m9,v9,m4,v4, grupos: { [grupo]: { m9,v9,m4,v4, ven: { [ven]: { m9,v9,m4,v4, cl:[] } } } } } }
 let R = {}, TOT = {m9:0,v9:0,m4:0,v4:0};
 let _uid = 0;
 const uid  = () => 'u'+(++_uid);
@@ -262,7 +261,6 @@ const cls  = p => p>=CONFIG.VERDE?'g':p>=CONFIG.AMARILLO?'y':'r';
 const bdg  = p => `<span class="bdg bg-${cls(p)}">${p}%</span>`;
 const bar  = p => `<div class="prog"><div class="prog-fill fill-${cls(p)}" style="width:${Math.min(p,100)}%"></div></div>`;
 
-// ── CSV parser
 function parseCSV(text){
   const lines=text.trim().split(/\r?\n/);
   const hdrs=csvLine(lines[0]).map(h=>h.trim());
@@ -282,7 +280,6 @@ function csvLine(line){
   return r.push(cur),r;
 }
 
-// ── Build data structure
 function build(rows){
   const C=CONFIG.COL;
   R={};TOT={m9:0,v9:0,m4:0,v4:0};
@@ -306,25 +303,21 @@ function build(rows){
       TOT[k]+=val;
     });
   });
-  // Show date badge
   if(fecha){
-    // Normalize: try to show as DD/MM
     let display=fecha;
     const d=new Date(fecha);
-    if(!isNaN(d)){
+    if(!isNaN(d.getTime())){
       display=(d.getDate()+'').padStart(2,'0')+'/'+(d.getMonth()+1+'').padStart(2,'0');
     } else {
-      // try DD/MM/YYYY → DD/MM
       const m=fecha.match(/^(\d{1,2})[\/\-](\d{1,2})/);
       if(m)display=m[1].padStart(2,'0')+'/'+m[2].padStart(2,'0');
     }
     const el=document.getElementById('hdr-fecha');
-    el.textContent='📅 Ventas actualizadas al '+display;
+    el.textContent='📅 Actualizadas al '+display;
     el.style.display='';
   }
 }
 
-// ── Client table (order: V900 | V450 | M900 | M450 | Cumpl)
 function clienteTbl(vd){
   const rows=[...vd.cl].map(c=>({...c,pt:pct(c.v9+c.v4,c.m9+c.m4)})).sort((a,b)=>a.pt-b.pt);
   let t=`<table><thead><tr>
@@ -344,10 +337,9 @@ function clienteTbl(vd){
   return t+'</tbody></table>';
 }
 
-// ── Render Nacional
 function renderNacional(){
-  const tm=TOT.m9+TOT.m4, tv=TOT.v9+TOT.v4;
-  const pt=pct(tv,tm), p9=pct(TOT.v9,TOT.m9), p4=pct(TOT.v4,TOT.m4);
+  const tm=TOT.m9+TOT.m4,tv=TOT.v9+TOT.v4;
+  const pt=pct(tv,tm),p9=pct(TOT.v9,TOT.m9),p4=pct(TOT.v4,TOT.m4);
   let nv=0;
   Object.values(R).forEach(rd=>Object.values(rd.grupos).forEach(gd=>nv+=Object.keys(gd.ven).length));
   document.getElementById('sum-cards').innerHTML=`
@@ -356,13 +348,12 @@ function renderNacional(){
     <div class="sum-card"><div class="sum-label">Cumpl. 450G</div><div class="sum-value c-${cls(p4)}">${p4}%</div><div class="sum-sub">${TOT.v4.toLocaleString()} / ${TOT.m4.toLocaleString()} un.</div>${bar(p4)}</div>
     <div class="sum-card"><div class="sum-label">Vendedores</div><div class="sum-value" style="color:#302b63">${nv}</div><div class="sum-sub">en ${Object.keys(R).length} regiones</div></div>`;
 
-  // Ranking
   const rnk=[];
   Object.entries(R).forEach(([rg,rd])=>
     Object.entries(rd.grupos).forEach(([gr,gd])=>
       Object.entries(gd.ven).forEach(([vn,vd])=>{
-        const mt=vd.m9+vd.m4, vt=vd.v9+vd.v4;
-        rnk.push({vn,rg,gr,pt:pct(vt,mt),mt,vt});
+        const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;
+        rnk.push({vn,rg,gr,vd,pt:pct(vt,mt)});
       })
     )
   );
@@ -370,33 +361,30 @@ function renderNacional(){
   const M=['🥇','🥈','🥉'];
   let t=`<table><thead><tr><th>#</th><th>Vendedor</th><th>Región</th><th>Grupo</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>Cumpl.</th></tr></thead><tbody>`;
   rnk.forEach((r,i)=>{
-    const vd=R[r.rg].grupos[r.gr].ven[r.vn];
     t+=`<tr>
       <td class="med">${M[i]||i+1}</td>
-      <td><strong>${r.vn}</strong></td>
-      <td>${r.rg}</td><td>${r.gr}</td>
-      <td>${vd.v9.toLocaleString()}</td><td>${vd.v4.toLocaleString()}</td>
-      <td>${vd.m9.toLocaleString()}</td><td>${vd.m4.toLocaleString()}</td>
+      <td><strong>${r.vn}</strong></td><td>${r.rg}</td><td>${r.gr}</td>
+      <td>${r.vd.v9.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td>
+      <td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.m4.toLocaleString()}</td>
       <td>${bdg(r.pt)}</td>
     </tr>`;
   });
   document.getElementById('ranking-tbl').innerHTML=t+'</tbody></table>';
 }
 
-// ── Render Por Región
 function renderGrupos(){
   let h='';
   Object.entries(R).forEach(([rg,rd])=>{
-    const mt=rd.m9+rd.m4, vt=rd.v9+rd.v4, pt=pct(vt,mt);
-    const bId=uid(), cId=uid();
+    const mt=rd.m9+rd.m4,vt=rd.v9+rd.v4,pt=pct(vt,mt);
+    const bId=uid(),cId=uid();
     h+=`<div class="card">
-      <div class="card-hd" onclick="toggle('${bId}','${cId}')">
+      <div class="card-hd" onclick="tog('${bId}','${cId}')">
         <div style="flex:1;min-width:0">
           <div class="card-title">${rg}</div>
           <div class="card-sub">${Object.keys(rd.grupos).length} grupos · ${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>
           ${bar(pt)}
         </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-left:12px">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div>
       </div>
       <div class="card-body" id="${bId}">`;
 
@@ -404,15 +392,15 @@ function renderGrupos(){
       .map(([gr,gd])=>{const mt2=gd.m9+gd.m4,vt2=gd.v9+gd.v4;return{gr,gd,pt:pct(vt2,mt2),mt2,vt2};})
       .sort((a,b)=>b.pt-a.pt)
       .forEach(({gr,gd,pt,mt2,vt2})=>{
-        const gbId=uid(), gcId=uid();
+        const gbId=uid(),gcId=uid();
         h+=`<div class="nivel-grupo">
-          <div class="nivel-grupo-hd" onclick="toggle2('${gbId}','${gcId}')">
+          <div class="nivel-grupo-hd" onclick="tog('${gbId}','${gcId}')">
             <div style="flex:1;min-width:0">
               <div class="nivel-grupo-title">${gr}</div>
               <div class="nivel-grupo-sub">${Object.keys(gd.ven).length} vendedores · ${vt2.toLocaleString()} / ${mt2.toLocaleString()} un.</div>
               ${bar(pt)}
             </div>
-            <div style="display:flex;align-items:center;gap:6px;margin-left:12px">${bdg(pt)}<span class="chev" id="${gcId}">▼</span></div>
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${gcId}">▼</span></div>
           </div>
           <div class="nivel-grupo-body" id="${gbId}">`;
 
@@ -421,22 +409,19 @@ function renderGrupos(){
           .sort((a,b)=>b.pt-a.pt)
           .forEach(({vn,vd,pt,mt3,vt3})=>{
             const tId=uid();
-            h+=`<div class="vrow" onclick="toggle('${tId}')">
-              <div><div class="vrow-name">${vn}</div><div class="vrow-sub">${vd.cl.length} clientes · ${vt3.toLocaleString()} / ${mt3.toLocaleString()} un.</div></div>
-              ${bdg(pt)}
+            h+=`<div class="vrow" onclick="tog('${tId}')">
+              <div style="flex:1;min-width:0"><div class="vrow-name">${vn}</div><div class="vrow-sub">${vd.cl.length} clientes · ${vt3.toLocaleString()} / ${mt3.toLocaleString()} un.</div></div>
+              <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">${bdg(pt)}<span class="chev">▼</span></div>
             </div>
             <div class="tbl-wrap" id="${tId}">${clienteTbl(vd)}</div>`;
           });
-
         h+=`</div></div>`;
       });
-
     h+=`</div></div>`;
   });
   document.getElementById('region-list').innerHTML=h;
 }
 
-// ── Filters for Vendedores tab
 function populateFiltros(){
   const rSel=document.getElementById('fil-region');
   Object.keys(R).sort().forEach(rg=>{
@@ -448,54 +433,63 @@ function onRegionChange(){
   const rg=document.getElementById('fil-region').value;
   const gSel=document.getElementById('fil-grupo');
   gSel.innerHTML='<option value="">Todos los grupos</option>';
-  const grupos=rg ? Object.keys(R[rg]?.grupos||{}) : [...new Set(Object.values(R).flatMap(rd=>Object.keys(rd.grupos)))];
+  const grupos=rg
+    ? Object.keys(R[rg]?.grupos||{})
+    : [...new Set(Object.values(R).flatMap(rd=>Object.keys(rd.grupos)))];
   grupos.sort().forEach(gr=>{const o=document.createElement('option');o.value=gr;o.textContent=gr;gSel.appendChild(o);});
   renderVenTab();
 }
 
+/* Vendedores tab: colapsable igual que Por Región */
 function renderVenTab(){
   const rg=document.getElementById('fil-region').value;
   const gf=document.getElementById('fil-grupo').value;
   const q=document.getElementById('fil-q').value.toLowerCase();
   let h='';
+
   Object.entries(R).forEach(([region,rd])=>{
     if(rg&&region!==rg)return;
     Object.entries(rd.grupos).forEach(([gr,gd])=>{
       if(gf&&gr!==gf)return;
-      Object.entries(gd.ven).forEach(([vn,vd])=>{
-        if(q&&!vn.toLowerCase().includes(q)&&!vd.cl.some(c=>c.pdv.toLowerCase().includes(q)))return;
-        const mt=vd.m9+vd.m4, vt=vd.v9+vd.v4, pt=pct(vt,mt);
-        h+=`<div class="card">
-          <div class="card-hd" style="cursor:default">
-            <div style="flex:1;min-width:0">
-              <div class="card-title">${vn}</div>
-              <div class="card-sub">${region} · ${gr} · ${vd.cl.length} clientes</div>
-              <div style="font-size:11px;color:#aaa;margin-top:3px">${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>
-              ${bar(pt)}
-            </div>
-            <div style="margin-left:12px">${bdg(pt)}</div>
-          </div>
-          <div class="card-body open"><div class="tbl-wrap open" style="padding-left:0">${clienteTbl(vd)}</div></div>
-        </div>`;
+
+      // Filter vendors for this group
+      const vens=Object.entries(gd.ven).filter(([vn,vd])=>{
+        if(!q)return true;
+        return vn.toLowerCase().includes(q)||vd.cl.some(c=>c.pdv.toLowerCase().includes(q));
       });
+      if(!vens.length)return;
+
+      vens
+        .map(([vn,vd])=>{const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;return{vn,vd,pt:pct(vt,mt),mt,vt};})
+        .sort((a,b)=>b.pt-a.pt)
+        .forEach(({vn,vd,pt,mt,vt})=>{
+          const bId=uid(),cId=uid();
+          h+=`<div class="card">
+            <div class="card-hd" onclick="tog('${bId}','${cId}')">
+              <div style="flex:1;min-width:0">
+                <div class="card-title">${vn}</div>
+                <div class="card-sub">${region} · ${gr} · ${vd.cl.length} clientes</div>
+                <div style="font-size:11px;color:#aaa;margin-top:3px">${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>
+                ${bar(pt)}
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div>
+            </div>
+            <div class="card-body" id="${bId}">
+              <div class="tbl-wrap open">${clienteTbl(vd)}</div>
+            </div>
+          </div>`;
+        });
     });
   });
   document.getElementById('ven-list').innerHTML=h||'<div class="empty">Sin resultados para ese filtro.</div>';
 }
 
-// ── Toggle helpers
-function toggle(bId,cId){
-  const b=document.getElementById(bId);if(!b)return;
-  b.classList.toggle('open');
-  if(cId){const c=document.getElementById(cId);if(c)c.classList.toggle('open');}
-}
-function toggle2(bId,cId){
+function tog(bId,cId){
   const b=document.getElementById(bId);if(!b)return;
   b.classList.toggle('open');
   if(cId){const c=document.getElementById(cId);if(c)c.classList.toggle('open');}
 }
 
-// ── Tab switch
 function switchTab(tab,el){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
   document.getElementById('tab-'+tab).classList.add('on');
@@ -503,13 +497,11 @@ function switchTab(tab,el){
   el.classList.add('on');
 }
 
-// ── Init
 async function init(){
   try{
     const res=await fetch(CONFIG.CSV_URL);
     if(!res.ok)throw new Error('HTTP '+res.status);
-    const text=await res.text();
-    build(parseCSV(text));
+    build(parseCSV(await res.text()));
     renderNacional();
     renderGrupos();
     populateFiltros();
@@ -519,7 +511,7 @@ async function init(){
   }catch(e){
     document.getElementById('loading').innerHTML=`
       <strong style="color:#dc2626">❌ Error al cargar datos</strong><br>
-      <small style="color:#999">Verifica que el Google Sheet esté publicado como CSV y la URL sea correcta.<br>${e.message}</small>`;
+      <small style="color:#999">Verifica que el Google Sheet esté publicado como CSV y que la URL sea correcta.<br>${e.message}</small>`;
   }
 }
 
