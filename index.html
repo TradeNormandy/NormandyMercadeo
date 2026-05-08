@@ -259,7 +259,7 @@ const num  = s => parseFloat(String(s||'').replace(/[^\d.-]/g,''))||0;
 const pct  = (v,m) => m ? Math.round(v/m*1000)/10 : 0;
 const cls  = p => p>=CONFIG.VERDE?'g':p>=CONFIG.AMARILLO?'y':'r';
 const bdg  = p => `<span class="bdg bg-${cls(p)}">${p}%</span>`;
-const bar  = p => `<div class="prog"><div class="prog-fill fill-${cls(p)}" style="width:${Math.min(p,100)}%"></div></div>`;
+const bar = p => `<div class="prog"><div class="prog-fill fill-${cls(p)}" style="width:${Math.max(0,Math.min(p,100))}%"></div></div>`;
 
 function parseCSV(text){
   const lines=text.trim().split(/\r?\n/);
