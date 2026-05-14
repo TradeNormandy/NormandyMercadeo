@@ -180,11 +180,6 @@ tbody tr:last-child td{border-bottom:none}
 
     <!-- POR REGIÓN -->
     <div id="tab-grupos" class="tab-pane">
-      <div class="sort-bar">
-        <button class="sort-btn" onclick="setSort('grp','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
-        <button class="sort-btn on" onclick="setSort('grp','cumpl_asc',this)">🔻 Menor cumplimiento</button>
-        <button class="sort-btn" onclick="setSort('grp','meta_desc',this)">🎯 Meta más alta</button>
-      </div>
       <div id="region-list"></div>
     </div>
 
@@ -403,7 +398,11 @@ function build(rows){
 
 // ── Client table
 function clienteTbl(vd){
-  const rows=[...vd.cl].map(c=>({...c,pt:pct(c.v9+c.v4,c.m9+c.m4)})).sort((a,b)=>a.pt-b.pt);
+  const rows=[...vd.cl]
+    .filter(c => (c.m9+c.m4) > 0)
+    .map(c=>({...c,pt:pct(c.v9+c.v4,c.m9+c.m4)}))
+    .sort((a,b)=>a.pt-b.pt);
+  if(!rows.length) return '<div class="empty" style="padding:14px;font-size:11px">Sin clientes con meta asignada.</div>';
   let t=`<table><thead><tr>
     <th>Punto de Venta</th>
     <th>V. 900G</th><th>V. 450G</th>
@@ -493,10 +492,10 @@ function renderGrupos(){
           </div>
           <div class="nivel-grupo-body" id="${gbId}">`;
 
-        applySortFn(
-          Object.entries(gd.ven).map(([vn,vd])=>{const mt3=vd.m9+vd.m4,vt3=vd.v9+vd.v4;return{vn,vd,pt:pct(vt3,mt3),mt3,vt3};}),
-          SORT.grp, 'mt3'
-        ).forEach(({vn,vd,pt,mt3,vt3})=>{
+        Object.entries(gd.ven)
+          .map(([vn,vd])=>{const mt3=vd.m9+vd.m4,vt3=vd.v9+vd.v4;return{vn,vd,pt:pct(vt3,mt3),mt3,vt3};})
+          .sort((a,b)=>a.pt-b.pt)
+          .forEach(({vn,vd,pt,mt3,vt3})=>{
             const tId=uid();
             h+=`<div class="vrow" onclick="tog('${tId}')">
               <div style="flex:1;min-width:0"><div class="vrow-name">${vn}</div><div class="vrow-sub">${vd.cl.length} clientes · ${vt3.toLocaleString()} / ${mt3.toLocaleString()} un.</div></div>
