@@ -87,6 +87,10 @@ tbody tr:last-child td{border-bottom:none}
 .filters select:focus,.filters input:focus{border-color:#302b63}
 
 .sec{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#bbb;margin:14px 0 6px}
+.sort-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.sort-btn{padding:7px 11px;border:1px solid #e5e7eb;border-radius:20px;font-size:11px;font-weight:600;background:#fff;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;user-select:none}
+.sort-btn:hover{border-color:#302b63;color:#302b63}
+.sort-btn.on{background:#302b63;color:#fff;border-color:#302b63}
 #loading{text-align:center;padding:80px 20px;color:#aaa;font-size:14px;line-height:1.8}
 .empty{color:#bbb;text-align:center;padding:40px;font-size:13px}
 
@@ -162,6 +166,11 @@ tbody tr:last-child td{border-bottom:none}
     <div id="tab-nacional" class="tab-pane on">
       <div class="sum-grid" id="sum-cards"></div>
       <div class="sec">🏆 Ranking Vendedores</div>
+      <div class="sort-bar">
+        <button class="sort-btn" onclick="setSort('rnk','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
+        <button class="sort-btn on" id="rnk-default" onclick="setSort('rnk','cumpl_asc',this)">🔻 Menor cumplimiento</button>
+        <button class="sort-btn" onclick="setSort('rnk','meta_desc',this)">🎯 Meta más alta</button>
+      </div>
       <div class="card">
         <div class="card-body open">
           <div class="tbl-wrap open" id="ranking-tbl"></div>
@@ -171,6 +180,11 @@ tbody tr:last-child td{border-bottom:none}
 
     <!-- POR REGIÓN -->
     <div id="tab-grupos" class="tab-pane">
+      <div class="sort-bar">
+        <button class="sort-btn" onclick="setSort('grp','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
+        <button class="sort-btn on" onclick="setSort('grp','cumpl_asc',this)">🔻 Menor cumplimiento</button>
+        <button class="sort-btn" onclick="setSort('grp','meta_desc',this)">🎯 Meta más alta</button>
+      </div>
       <div id="region-list"></div>
     </div>
 
@@ -180,6 +194,11 @@ tbody tr:last-child td{border-bottom:none}
         <select id="fil-region" onchange="onRegionChange()"><option value="">Todas las regiones</option></select>
         <select id="fil-grupo" onchange="renderVenTab()"><option value="">Todos los grupos</option></select>
         <input type="text" id="fil-q" placeholder="Buscar vendedor o PDV…" oninput="renderVenTab()">
+      </div>
+      <div class="sort-bar">
+        <button class="sort-btn" onclick="setSort('ven','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
+        <button class="sort-btn on" onclick="setSort('ven','cumpl_asc',this)">🔻 Menor cumplimiento</button>
+        <button class="sort-btn" onclick="setSort('ven','meta_desc',this)">🎯 Meta más alta</button>
       </div>
       <div id="ven-list"></div>
     </div>
@@ -258,6 +277,27 @@ let TOT = {m9:0,v9:0,m4:0,v4:0};
 let AVANCE = 0;   // % avance del mes calculado desde FECHA DE VENTA
 let DH_TRANS = 0; // días hábiles transcurridos
 let _uid = 0;
+
+// Sort state: 'cumpl_asc' | 'cumpl_desc' | 'meta_desc'
+const SORT = { rnk: 'cumpl_asc', ven: 'cumpl_asc', grp: 'cumpl_asc' };
+
+function applySortFn(arr, key, metaKey) {
+  return [...arr].sort((a,b) => {
+    if (key === 'cumpl_desc') return b.pt - a.pt;
+    if (key === 'cumpl_asc')  return a.pt - b.pt;
+    if (key === 'meta_desc')  return (b[metaKey]||0) - (a[metaKey]||0);
+    return a.pt - b.pt;
+  });
+}
+
+function setSort(ctx, key, el) {
+  SORT[ctx] = key;
+  el.closest('.sort-bar').querySelectorAll('.sort-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  if (ctx === 'rnk') renderNacional();
+  if (ctx === 'ven') renderVenTab();
+  if (ctx === 'grp') renderGrupos();
+}
 
 const uid = () => 'u'+(++_uid);
 const num = s  => parseFloat(String(s||'').replace(/[^\d.-]/g,''))||0;
@@ -391,8 +431,7 @@ function renderNacional(){
   document.getElementById('sum-cards').innerHTML=`
     <div class="sum-card"><div class="sum-label">Cumpl. Total</div><div class="sum-value c-${clsD(pt)}">${emoD(pt)} ${pt}%</div><div class="sum-sub">${tv.toLocaleString()} / ${tm.toLocaleString()} un.</div>${bar(pt)}</div>
     <div class="sum-card"><div class="sum-label">Cumpl. 900G</div><div class="sum-value c-${clsD(p9)}">${emoD(p9)} ${p9}%</div><div class="sum-sub">${TOT.v9.toLocaleString()} / ${TOT.m9.toLocaleString()} un.</div>${bar(p9)}</div>
-    <div class="sum-card"><div class="sum-label">Cumpl. 450G</div><div class="sum-value c-${clsD(p4)}">${emoD(p4)} ${p4}%</div><div class="sum-sub">${TOT.v4.toLocaleString()} / ${TOT.m4.toLocaleString()} un.</div>${bar(p4)}</div>
-    <div class="sum-card"><div class="sum-label">Vendedores</div><div class="sum-value" style="color:#302b63">${nv}</div><div class="sum-sub">en ${Object.keys(R).length} regiones</div></div>`;
+    <div class="sum-card"><div class="sum-label">Cumpl. 450G</div><div class="sum-value c-${clsD(p4)}">${emoD(p4)} ${p4}%</div><div class="sum-sub">${TOT.v4.toLocaleString()} / ${TOT.m4.toLocaleString()} un.</div>${bar(p4)}</div>`;
 
   const rnk=[];
   Object.entries(R).forEach(([rg,rd])=>
@@ -403,15 +442,18 @@ function renderNacional(){
       })
     )
   );
-  rnk.sort((a,b)=>b.pt-a.pt);
+  rnk.forEach(r => r.mt = r.vd.m9+r.vd.m4);
+  const rnkSorted = applySortFn(rnk, SORT.rnk, 'mt');
   const M=['🥇','🥈','🥉'];
-  let t=`<table><thead><tr><th>#</th><th>Vendedor</th><th>Región</th><th>Grupo</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>Cumpl.</th></tr></thead><tbody>`;
-  rnk.forEach((r,i)=>{
+  let t=`<table><thead><tr><th>#</th><th>Vendedor</th><th>Grupo</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>V. Total</th><th>M. Total</th><th>Cumpl.</th></tr></thead><tbody>`;
+  rnkSorted.forEach((r,i)=>{
+    const pos = SORT.rnk === 'cumpl_desc' ? (M[i]||i+1) : i+1;
     t+=`<tr>
-      <td class="med">${M[i]||i+1}</td>
-      <td><strong>${r.vn}</strong></td><td>${r.rg}</td><td>${r.gr}</td>
+      <td class="med">${pos}</td>
+      <td><strong>${r.vn}</strong></td><td>${r.gr}</td>
       <td>${r.vd.v9.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td>
       <td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.m4.toLocaleString()}</td>
+      <td><strong>${(r.vd.v9+r.vd.v4).toLocaleString()}</strong></td><td><strong>${(r.vd.m9+r.vd.m4).toLocaleString()}</strong></td>
       <td>${bdg(r.pt)}</td>
     </tr>`;
   });
@@ -451,10 +493,10 @@ function renderGrupos(){
           </div>
           <div class="nivel-grupo-body" id="${gbId}">`;
 
-        Object.entries(gd.ven)
-          .map(([vn,vd])=>{const mt3=vd.m9+vd.m4,vt3=vd.v9+vd.v4;return{vn,vd,pt:pct(vt3,mt3),mt3,vt3};})
-          .sort((a,b)=>b.pt-a.pt)
-          .forEach(({vn,vd,pt,mt3,vt3})=>{
+        applySortFn(
+          Object.entries(gd.ven).map(([vn,vd])=>{const mt3=vd.m9+vd.m4,vt3=vd.v9+vd.v4;return{vn,vd,pt:pct(vt3,mt3),mt3,vt3};}),
+          SORT.grp, 'mt3'
+        ).forEach(({vn,vd,pt,mt3,vt3})=>{
             const tId=uid();
             h+=`<div class="vrow" onclick="tog('${tId}')">
               <div style="flex:1;min-width:0"><div class="vrow-name">${vn}</div><div class="vrow-sub">${vd.cl.length} clientes · ${vt3.toLocaleString()} / ${mt3.toLocaleString()} un.</div></div>
@@ -502,10 +544,10 @@ function renderVenTab(){
         return vn.toLowerCase().includes(q)||vd.cl.some(c=>c.pdv.toLowerCase().includes(q));
       });
       if(!vens.length)return;
-      vens
-        .map(([vn,vd])=>{const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;return{vn,vd,pt:pct(vt,mt),mt,vt};})
-        .sort((a,b)=>b.pt-a.pt)
-        .forEach(({vn,vd,pt,mt,vt})=>{
+      applySortFn(
+        vens.map(([vn,vd])=>{const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;return{vn,vd,pt:pct(vt,mt),mt,vt};}),
+        SORT.ven, 'mt'
+      ).forEach(({vn,vd,pt,mt,vt})=>{
           const bId=uid(), cId=uid();
           h+=`<div class="card">
             <div class="card-hd" onclick="tog('${bId}','${cId}')">
