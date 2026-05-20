@@ -203,6 +203,7 @@ tbody tr:last-child td{border-bottom:none}
   <div class="tabs" id="ven-tabs" style="display:none">
     <div class="tab on" onclick="switchVenTab('ven-solo-wrap',this)">🛒 Mi Ruta</div>
     <div class="tab" onclick="switchVenTab('ven-reglas-wrap',this)">📋 Reglas</div>
+    <div class="tab" onclick="switchVenTab('ven-ranking-wrap',this)">🏆 Ranking</div>
   </div>
 
   <div class="wrap" id="avance-wrap" style="display:none">
@@ -347,6 +348,12 @@ tbody tr:last-child td{border-bottom:none}
             <div class="fecha-item"><div class="fecha-lbl">Pago de premiación</div><div class="fecha-val">Primera quincena de julio</div></div>
           </div></div>
         </div>
+      </div>
+    </div>
+    <div id="ven-ranking-wrap" style="display:none">
+      <div class="wrap">
+        <div class="sec">🏆 Ranking Vendedores</div>
+        <div id="ven-ranking-list"></div>
       </div>
     </div>
   </div>
@@ -507,10 +514,22 @@ function applyFilter(){
 }
 
 function clienteTbl(vd){
-  const rows=[...vd.cl].filter(c=>(c.m9+c.m4)>0).map(c=>({...c,pt:pct(c.v9+c.v4,c.m9+c.m4)})).sort((a,b)=>a.pt-b.pt);
+  const rows=[...vd.cl].filter(c=>(c.m9+c.m4)>0).map(c=>({...c,
+    p9:pct(c.v9,c.m9), p4:pct(c.v4,c.m4), pt:pct(c.v9+c.v4,c.m9+c.m4)
+  })).sort((a,b)=>a.pt-b.pt);
   if(!rows.length)return '<div class="empty" style="padding:14px;font-size:11px">Sin clientes con meta asignada.</div>';
-  let t=`<table><thead><tr><th>Punto de Venta</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>Cumpl.</th></tr></thead><tbody>`;
-  rows.forEach(c=>{t+=`<tr><td>${c.pdv}</td><td>${c.v9.toLocaleString()}</td><td>${c.v4.toLocaleString()}</td><td>${c.m9.toLocaleString()}</td><td>${c.m4.toLocaleString()}</td><td>${bdg(c.pt)}</td></tr>`;});
+  let t=`<table><thead><tr>
+    <th>Punto de Venta</th>
+    <th>M. 900G</th><th>V. 900G</th><th>C. 900G</th>
+    <th>M. 450G</th><th>V. 450G</th><th>C. 450G</th>
+    <th>M. Total</th><th>V. Total</th><th>C. Total</th>
+  </tr></thead><tbody>`;
+  rows.forEach(c=>{t+=`<tr>
+    <td>${c.pdv}</td>
+    <td>${c.m9.toLocaleString()}</td><td>${c.v9.toLocaleString()}</td><td>${bdg(c.p9)}</td>
+    <td>${c.m4.toLocaleString()}</td><td>${c.v4.toLocaleString()}</td><td>${bdg(c.p4)}</td>
+    <td><strong>${(c.m9+c.m4).toLocaleString()}</strong></td><td><strong>${(c.v9+c.v4).toLocaleString()}</strong></td><td>${bdg(c.pt)}</td>
+  </tr>`;});
   return t+'</tbody></table>';
 }
 
@@ -525,8 +544,21 @@ function renderNacional(){
     const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;rnk.push({vn,rg,gr,vd,pt:pct(vt,mt),mt});
   })));
   const M=['🥇','🥈','🥉'],sorted=applySortFn(rnk,SORT.rnk,'mt');
-  let t=`<table><thead><tr><th>#</th><th>Vendedor</th><th>Grupo</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>V. Total</th><th>M. Total</th><th>Cumpl.</th></tr></thead><tbody>`;
-  sorted.forEach((r,i)=>{const pos=SORT.rnk==='cumpl_desc'?(M[i]||i+1):i+1;t+=`<tr><td class="med">${pos}</td><td><strong>${r.vn}</strong></td><td>${r.gr}</td><td>${r.vd.v9.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td><td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.m4.toLocaleString()}</td><td><strong>${(r.vd.v9+r.vd.v4).toLocaleString()}</strong></td><td><strong>${(r.vd.m9+r.vd.m4).toLocaleString()}</strong></td><td>${bdg(r.pt)}</td></tr>`;});
+  let t=`<table><thead><tr>
+    <th>#</th><th>Vendedor</th><th>Grupo</th>
+    <th>M. 900G</th><th>V. 900G</th><th>C. 900G</th>
+    <th>M. 450G</th><th>V. 450G</th><th>C. 450G</th>
+    <th>M. Total</th><th>V. Total</th><th>C. Total</th>
+  </tr></thead><tbody>`;
+  sorted.forEach((r,i)=>{
+    const pos=SORT.rnk==='cumpl_desc'?(M[i]||i+1):i+1;
+    const p9=pct(r.vd.v9,r.vd.m9), p4=pct(r.vd.v4,r.vd.m4);
+    t+=`<tr>
+      <td class="med">${pos}</td><td><strong>${r.vn}</strong></td><td>${r.gr}</td>
+      <td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.v9.toLocaleString()}</td><td>${bdg(p9)}</td>
+      <td>${r.vd.m4.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td><td>${bdg(p4)}</td>
+      <td><strong>${(r.vd.m9+r.vd.m4).toLocaleString()}</strong></td><td><strong>${(r.vd.v9+r.vd.v4).toLocaleString()}</strong></td><td>${bdg(r.pt)}</td>
+    </tr>`;});
   document.getElementById('ranking-tbl').innerHTML=t+'</tbody></table>';
 }
 
@@ -643,10 +675,37 @@ function exportarHTML(){
 
 // ── Helpers
 function tog(bId,cId){const b=document.getElementById(bId);if(!b)return;b.classList.toggle('open');if(cId){const c=document.getElementById(cId);if(c)c.classList.toggle('open');}}
+function renderRankingVen(){
+  // Build ranking from R_ALL (all vendors, not filtered)
+  const rnk=[];
+  Object.values(R_ALL).forEach(rd=>Object.values(rd.grupos).forEach(gd=>Object.entries(gd.ven).forEach(([vn,vd])=>{
+    const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;
+    rnk.push({vn,pt:pct(vt,mt)});
+  })));
+  rnk.sort((a,b)=>b.pt-a.pt);
+  const M=['🥇','🥈','🥉'];
+  const myName=SESSION.filtros[0]||''
+  let h='<div class="card"><div class="card-body open"><div class="tbl-wrap open">';
+  h+='<table><thead><tr><th>#</th><th>Vendedor</th><th>Cumpl. Total</th></tr></thead><tbody>';
+  rnk.forEach((r,i)=>{
+    const isMe=r.vn===myName;
+    const medal=M[i]||i+1;
+    const highlight=isMe?'background:#fffbeb;font-weight:700;':i<3?'background:#f8f9fb;':''
+    h+=`<tr style="${highlight}">
+      <td class="med">${medal}</td>
+      <td>${isMe?'<strong>'+r.vn+' ← Tú</strong>':r.vn}</td>
+      <td>${bdg(r.pt)}</td>
+    </tr>`;
+  });
+  h+='</tbody></table></div></div></div>';
+  document.getElementById('ven-ranking-list').innerHTML=h;
+}
+
 function switchVenTab(show,el){
-  ['ven-solo-wrap','ven-reglas-wrap'].forEach(id=>document.getElementById(id).style.display=id===show?'block':'none');
+  ['ven-solo-wrap','ven-reglas-wrap','ven-ranking-wrap'].forEach(id=>document.getElementById(id).style.display=id===show?'block':'none');
   document.querySelectorAll('#ven-tabs .tab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
+  if(show==='ven-ranking-wrap') renderRankingVen();
 }
 
 function switchTab(tab,el){
@@ -685,6 +744,7 @@ function logout(){
   document.getElementById('ven-tabs').style.display='none';
   document.getElementById('ven-solo-wrap').style.display='block';
   document.getElementById('ven-reglas-wrap').style.display='none';
+  document.getElementById('ven-ranking-wrap').style.display='none';
   document.querySelectorAll('#ven-tabs .tab').forEach((b,i)=>{b.classList.toggle('on',i===0);});
   // Resetear tabs al estado inicial
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
