@@ -798,6 +798,7 @@ function logout(){
   document.getElementById('login-error').textContent='';
   document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('login-form').classList.remove('show');
+  sessionStorage.clear();
   selectedRole=null;
 }
 
@@ -823,6 +824,10 @@ function launchApp(){
 }
 
 async function init(){
+  // Siempre arrancar desde login — evita que el browser muestre estado cacheado
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app-screen').style.display='none';
+
   try{const saved=sessionStorage.getItem('eleva_session');if(saved)SESSION=JSON.parse(saved);}catch(e){SESSION=null;}
   try{
     const res=await fetch(CONFIG.CSV_URL);
@@ -834,7 +839,7 @@ async function init(){
   }
   if(SESSION){
     const valid=getUsuarios().find(u=>u.rol===SESSION.rol&&u.usuario===SESSION.usuario);
-    if(valid)launchApp();else{SESSION=null;sessionStorage.removeItem('eleva_session');}
+    if(valid)launchApp();else{SESSION=null;sessionStorage.clear();}
   }
 }
 init();
