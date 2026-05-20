@@ -7,23 +7,44 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#111;min-height:100vh}
-
+/* LOGIN */
+#login-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#0f0c29,#302b63)}
+.login-logo{font-size:40px;margin-bottom:8px}
+.login-title{color:#fff;font-size:20px;font-weight:800;letter-spacing:-.3px;text-align:center}
+.login-sub{color:rgba(255,255,255,.4);font-size:12px;margin-top:4px;text-align:center}
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:400px;margin:28px 0 0}
+.role-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:20px 10px;cursor:pointer;text-align:center;transition:all .2s;color:#fff}
+.role-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3)}
+.role-btn.sel{background:rgba(245,158,11,.2);border-color:#f59e0b}
+.role-icon{font-size:26px;margin-bottom:6px}
+.role-label{font-size:11px;font-weight:700;letter-spacing:.3px}
+.login-form{width:100%;max-width:340px;margin-top:20px;display:none}
+.login-form.show{display:block}
+.login-input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:14px;margin-bottom:10px;outline:none}
+.login-input::placeholder{color:rgba(255,255,255,.35)}
+.login-input:focus{border-color:#f59e0b}
+.login-submit{width:100%;padding:13px;border-radius:10px;background:#f59e0b;border:none;color:#000;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .2s}
+.login-submit:hover{opacity:.88}
+.login-error{color:#f87171;font-size:12px;text-align:center;margin-top:8px;min-height:18px}
+/* APP */
+#app-screen{display:none}
 .hdr{background:linear-gradient(135deg,#0f0c29,#302b63);color:#fff;padding:14px 16px 12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.35)}
+.hdr-row{display:flex;align-items:flex-start;gap:10px}
 .hdr h1{font-size:14px;font-weight:700;letter-spacing:-.2px;line-height:1.3}
 .hdr-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
 .hdr-sub{font-size:11px;color:rgba(255,255,255,.4)}
 .hdr-date{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.35);border-radius:20px;padding:3px 10px;font-size:11px;color:#fbbf24;font-weight:600;white-space:nowrap}
-
+.hdr-user{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+.hdr-badge{background:rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.7);white-space:nowrap}
+.logout-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:5px 10px;font-size:11px;color:#fff;cursor:pointer}
+.logout-btn:hover{background:rgba(255,255,255,.2)}
 .tabs{background:#1a1748;display:flex;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:11px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent;transition:all .2s;user-select:none}
 .tab.on{color:#fff;border-bottom-color:#f59e0b}
-
 .wrap{padding:12px;max-width:1100px;margin:0 auto}
-.tab-pane{display:none}
-.tab-pane.on{display:block}
-
-/* Avance banner */
+.tab-pane{display:none}.tab-pane.on{display:block}
+/* avance */
 .avance-banner{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .avance-left{flex:1;min-width:180px}
 .avance-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:4px}
@@ -32,25 +53,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .avance-right{display:flex;gap:8px;flex-wrap:wrap}
 .av-pill{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:700;white-space:nowrap}
 .av-prog{flex:1;min-width:100%;margin-top:8px}
-.av-track{background:#e9ecef;border-radius:4px;height:6px;overflow:hidden;position:relative}
+.av-track{background:#e9ecef;border-radius:4px;height:6px;overflow:hidden}
 .av-fill{height:100%;border-radius:4px;background:#302b63}
-.av-marker{position:absolute;top:-3px;width:2px;height:12px;background:#302b63;border-radius:2px}
-
-/* Summary cards */
+/* cards */
 .sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-@media(min-width:600px){.sum-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:600px){.sum-grid{grid-template-columns:repeat(3,1fr)}}
 .sum-card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .sum-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa}
 .sum-value{font-size:24px;font-weight:800;margin:4px 0 2px;line-height:1}
 .sum-sub{font-size:10px;color:#aaa}
-
 .prog{background:#e9ecef;border-radius:4px;height:5px;margin-top:7px;overflow:hidden}
 .prog-fill{height:100%;border-radius:4px}
 .fill-g{background:#16a34a}.fill-y{background:#d97706}.fill-r{background:#dc2626}
 .c-g{color:#16a34a}.c-y{color:#d97706}.c-r{color:#dc2626}
 .bg-g{background:#dcfce7;color:#166534}.bg-y{background:#fef3c7;color:#92400e}.bg-r{background:#fee2e2;color:#991b1b}
 .bdg{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-
 .card{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:8px;overflow:hidden}
 .card-hd{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;gap:8px}
 .card-hd:hover{background:#fafafa}
@@ -60,32 +77,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card-body.open{display:block}
 .chev{font-size:11px;color:#aaa;transition:transform .2s;display:inline-block;flex-shrink:0;margin-left:4px}
 .chev.open{transform:rotate(180deg)}
-
 .nivel-grupo{background:#f8f9fb;border-bottom:1px solid #eee}
 .nivel-grupo-hd{padding:10px 14px 10px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;gap:8px}
 .nivel-grupo-hd:hover{background:#f0f2f5}
 .nivel-grupo-title{font-size:12px;font-weight:700;color:#333}
 .nivel-grupo-sub{font-size:10px;color:#aaa;margin-top:1px}
-.nivel-grupo-body{display:none}
-.nivel-grupo-body.open{display:block}
-
+.nivel-grupo-body{display:none}.nivel-grupo-body.open{display:block}
 .vrow{padding:9px 14px 9px 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5;cursor:pointer;gap:8px}
 .vrow:hover{background:#fafafa}
 .vrow-name{font-size:12px;font-weight:600;color:#222;line-height:1.3}
 .vrow-sub{font-size:10px;color:#bbb}
-
-.tbl-wrap{overflow-x:auto;display:none}
-.tbl-wrap.open{display:block}
+.tbl-wrap{overflow-x:auto;display:none}.tbl-wrap.open{display:block}
 table{width:100%;border-collapse:collapse;font-size:11px;min-width:380px}
 thead th{background:#f8f9fb;padding:7px 10px;text-align:left;font-size:10px;text-transform:uppercase;color:#999;font-weight:700;white-space:nowrap}
 tbody td{padding:7px 10px;border-bottom:1px solid #f5f5f5;vertical-align:middle;white-space:nowrap}
 tbody tr:last-child td{border-bottom:none}
 .med{width:28px;font-size:13px}
-
 .filters{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .filters select,.filters input{flex:1;min-width:130px;padding:9px 11px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;background:#fff;outline:none;color:#111}
 .filters select:focus,.filters input:focus{border-color:#302b63}
-
 .sec{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#bbb;margin:14px 0 6px}
 .sort-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .sort-btn{padding:7px 11px;border:1px solid #e5e7eb;border-radius:20px;font-size:11px;font-weight:600;background:#fff;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;user-select:none}
@@ -93,8 +103,32 @@ tbody tr:last-child td{border-bottom:none}
 .sort-btn.on{background:#302b63;color:#fff;border-color:#302b63}
 #loading{text-align:center;padding:80px 20px;color:#aaa;font-size:14px;line-height:1.8}
 .empty{color:#bbb;text-align:center;padding:40px;font-size:13px}
-
-/* Reglas */
+/* ADMIN panel */
+.admin-panel{max-width:900px}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.admin-topbar h2{font-size:15px;font-weight:700;color:#302b63}
+.admin-export-btn{padding:9px 16px;background:#302b63;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
+.admin-export-btn:hover{opacity:.88}
+.admin-info{background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400e;margin-bottom:14px;line-height:1.6}
+.admin-table-wrap{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
+.admin-table{width:100%;border-collapse:collapse;font-size:12px}
+.admin-table thead th{background:#302b63;color:#fff;padding:10px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;white-space:nowrap}
+.admin-table tbody tr:nth-child(even){background:#f8f9fb}
+.admin-table tbody td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.admin-table tbody tr:last-child td{border-bottom:none}
+.rol-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.rol-ADMIN{background:#e0e7ff;color:#3730a3}
+.rol-COORDINADOR{background:#dcfce7;color:#166534}
+.rol-VENDEDOR{background:#f0f2f5;color:#555}
+.pass-input{padding:6px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;width:110px;outline:none}
+.pass-input:focus{border-color:#302b63}
+.pass-input.changed{border-color:#f59e0b;background:#fffbeb}
+.save-btn{padding:6px 12px;border-radius:6px;border:none;background:#302b63;color:#fff;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.save-btn:hover{opacity:.85}
+.save-btn.saved{background:#16a34a}
+.admin-filter{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.admin-filter select{padding:8px 11px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;background:#fff;outline:none;color:#111}
+/* reglas */
 .r-card{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:10px;overflow:hidden}
 .r-head{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0}
 .r-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
@@ -115,36 +149,58 @@ tbody tr:last-child td{border-bottom:none}
 .fecha-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:#aaa;font-weight:700}
 .fecha-val{font-size:12px;color:#111;margin-top:4px;font-weight:600;line-height:1.4}
 .cod{display:inline-block;background:#f0f2f5;border:1px solid #e5e7eb;border-radius:4px;padding:1px 6px;font-size:10px;font-family:monospace;margin-right:4px;color:#333}
+#ven-solo{padding:12px;max-width:700px;margin:0 auto;display:none}
 </style>
 </head>
 <body>
 
-<div class="hdr">
-  <div style="display:flex;align-items:flex-start;gap:10px">
-    <span style="font-size:20px;margin-top:1px">💙</span>
-    <div style="flex:1;min-width:0">
-      <h1>Foco: Eleva tu Nivel</h1>
-      <div class="hdr-meta">
-        <span class="hdr-sub">Incentivos · Mayo 2026</span>
-        <span class="hdr-date" id="hdr-fecha" style="display:none">📅 —</span>
-      </div>
-    </div>
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-logo">⚡</div>
+  <div class="login-title">Eleva tu Nivel</div>
+  <div class="login-sub">Yogurt Griego Pro+ · Seguimiento Incentivos</div>
+  <div class="role-grid">
+    <div class="role-btn" onclick="selectRole('ADMIN',this)"><div class="role-icon">🛡️</div><div class="role-label">Admin</div></div>
+    <div class="role-btn" onclick="selectRole('COORDINADOR',this)"><div class="role-icon">📊</div><div class="role-label">Coordinador</div></div>
+    <div class="role-btn" onclick="selectRole('VENDEDOR',this)"><div class="role-icon">🛒</div><div class="role-label">Vendedor</div></div>
+  </div>
+  <div class="login-form" id="login-form">
+    <input class="login-input" type="text" id="inp-user" placeholder="Usuario" autocomplete="off" autocapitalize="none">
+    <input class="login-input" type="password" id="inp-pass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-submit" onclick="doLogin()">Ingresar →</button>
+    <div class="login-error" id="login-error"></div>
   </div>
 </div>
 
-<div class="tabs">
-  <div class="tab on" onclick="switchTab('nacional',this)">🏆 General</div>
-  <div class="tab"    onclick="switchTab('grupos',this)">📦 Grupo de Ventas</div>
-  <div class="tab"    onclick="switchTab('vendedores',this)">👤 Vendedores</div>
-  <div class="tab"    onclick="switchTab('reglas',this)">📋 Reglas de juego</div>
-</div>
+<!-- APP -->
+<div id="app-screen">
+  <div class="hdr">
+    <div class="hdr-row">
+      <span style="font-size:20px;margin-top:1px">⚡</span>
+      <div style="flex:1;min-width:0">
+        <h1>Eleva tu Nivel · Yogurt Griego Pro+</h1>
+        <div class="hdr-meta">
+          <span class="hdr-sub">Incentivos · Mayo 2026</span>
+          <span class="hdr-date" id="hdr-fecha" style="display:none">📅 —</span>
+        </div>
+      </div>
+      <div class="hdr-user">
+        <span class="hdr-badge" id="hdr-badge">—</span>
+        <button class="logout-btn" onclick="logout()">Salir</button>
+      </div>
+    </div>
+  </div>
 
-<div class="wrap">
-  <div id="loading">⏳ Cargando datos…</div>
-  <div id="app" style="display:none">
+  <div class="tabs" id="main-tabs">
+    <div class="tab on" onclick="switchTab('nacional',this)">🏆 Nacional</div>
+    <div class="tab" onclick="switchTab('grupos',this)">📦 Por Región</div>
+    <div class="tab" onclick="switchTab('vendedores',this)">👤 Vendedores</div>
+    <div class="tab" onclick="switchTab('reglas',this)">📋 Reglas</div>
+    <div class="tab" id="tab-admin-btn" style="display:none" onclick="switchTab('admin',this)">🛡️ Usuarios</div>
+  </div>
 
-    <!-- Banner avance — visible en todas las pestañas via JS -->
-    <div class="avance-banner" id="avance-banner">
+  <div class="wrap" id="avance-wrap" style="display:none">
+    <div class="avance-banner">
       <div class="avance-left">
         <div class="avance-title">Avance del mes</div>
         <div class="avance-val" id="av-pct">—</div>
@@ -155,90 +211,106 @@ tbody tr:last-child td{border-bottom:none}
         <span class="av-pill bg-y">🟡 Hasta 3 pts abajo</span>
         <span class="av-pill bg-r">🔴 Más de 3 pts abajo</span>
       </div>
-      <div class="av-prog">
-        <div class="av-track">
-          <div class="av-fill" id="av-fill" style="width:0%"></div>
+      <div class="av-prog"><div class="av-track"><div class="av-fill" id="av-fill" style="width:0%"></div></div></div>
+    </div>
+  </div>
+
+  <div class="wrap" id="tabs-wrap" style="display:none">
+    <div id="loading">⏳ Cargando datos…</div>
+    <div id="tab-data" style="display:none">
+
+      <div id="tab-nacional" class="tab-pane on">
+        <div class="sum-grid" id="sum-cards"></div>
+        <div class="sec">🏆 Ranking Vendedores</div>
+        <div class="sort-bar">
+          <button class="sort-btn" onclick="setSort('rnk','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
+          <button class="sort-btn on" onclick="setSort('rnk','cumpl_asc',this)">🔻 Menor cumplimiento</button>
+          <button class="sort-btn" onclick="setSort('rnk','meta_desc',this)">🎯 Meta más alta</button>
         </div>
+        <div class="card"><div class="card-body open"><div class="tbl-wrap open" id="ranking-tbl"></div></div></div>
       </div>
-    </div>
 
-    <!-- NACIONAL -->
-    <div id="tab-nacional" class="tab-pane on">
-      <div class="sum-grid" id="sum-cards"></div>
-      <div class="sec">🏆 Ranking Vendedores</div>
-      <div class="sort-bar">
-        <button class="sort-btn" onclick="setSort('rnk','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
-        <button class="sort-btn on" id="rnk-default" onclick="setSort('rnk','cumpl_asc',this)">🔻 Menor cumplimiento</button>
-        <button class="sort-btn" onclick="setSort('rnk','meta_desc',this)">🎯 Meta más alta</button>
+      <div id="tab-grupos" class="tab-pane">
+        <div id="region-list"></div>
       </div>
-      <div class="card">
-        <div class="card-body open">
-          <div class="tbl-wrap open" id="ranking-tbl"></div>
+
+      <div id="tab-vendedores" class="tab-pane">
+        <div class="filters">
+          <select id="fil-region" onchange="onRegionChange()"><option value="">Todas las regiones</option></select>
+          <select id="fil-grupo" onchange="renderVenTab()"><option value="">Todos los grupos</option></select>
+          <input type="text" id="fil-q" placeholder="Buscar vendedor o PDV…" oninput="renderVenTab()">
         </div>
+        <div class="sort-bar">
+          <button class="sort-btn" onclick="setSort('ven','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
+          <button class="sort-btn on" onclick="setSort('ven','cumpl_asc',this)">🔻 Menor cumplimiento</button>
+          <button class="sort-btn" onclick="setSort('ven','meta_desc',this)">🎯 Meta más alta</button>
+        </div>
+        <div id="ven-list"></div>
       </div>
-    </div>
 
-    <!-- POR REGIÓN -->
-    <div id="tab-grupos" class="tab-pane">
-      <div id="region-list"></div>
-    </div>
-
-    <!-- VENDEDORES -->
-    <div id="tab-vendedores" class="tab-pane">
-      <div class="filters">
-        <select id="fil-region" onchange="onRegionChange()"><option value="">Todas las regiones</option></select>
-        <select id="fil-grupo" onchange="renderVenTab()"><option value="">Todos los grupos</option></select>
-        <input type="text" id="fil-q" placeholder="Buscar vendedor o PDV…" oninput="renderVenTab()">
-      </div>
-      <div class="sort-bar">
-        <button class="sort-btn" onclick="setSort('ven','cumpl_desc',this)">🔝 Mayor cumplimiento</button>
-        <button class="sort-btn on" onclick="setSort('ven','cumpl_asc',this)">🔻 Menor cumplimiento</button>
-        <button class="sort-btn" onclick="setSort('ven','meta_desc',this)">🎯 Meta más alta</button>
-      </div>
-      <div id="ven-list"></div>
-    </div>
-
-    <!-- REGLAS -->
-    <div id="tab-reglas" class="tab-pane">
-      <div class="r-card">
-        <div class="r-head"><div class="r-icon" style="background:#dcfce7">✅</div><div class="r-htitle">Condiciones para ganar</div></div>
-        <div class="r-body">
-          <ul>
+      <div id="tab-reglas" class="tab-pane">
+        <div class="r-card">
+          <div class="r-head"><div class="r-icon" style="background:#dcfce7">✅</div><div class="r-htitle">Condiciones para ganar</div></div>
+          <div class="r-body"><ul>
             <li>Colocar y hacer rotar el número de unidades asignadas en <strong>cada punto de venta</strong> durante el mes de mayo.</li>
             <li>Cumplir al <strong>95% o más</strong> el presupuesto de lácteos.</li>
-            <li>Las averías de los siguientes productos <strong>no deben superar el 3%</strong> durante junio:
-              <div style="margin-top:6px">
-                <div><span class="cod">01447</span>Yogurt Griego Pot 450G</div>
-                <div style="margin-top:3px"><span class="cod">01448</span>Yogurt Griego Pot 900G</div>
-              </div>
-            </li>
-          </ul>
+            <li>Las averías de los siguientes productos <strong>no deben superar el 3%</strong> durante junio:<div style="margin-top:6px"><div><span class="cod">01447</span>Yogurt Griego Pot 450G</div><div style="margin-top:3px"><span class="cod">01448</span>Yogurt Griego Pot 900G</div></div></li>
+          </ul></div>
         </div>
-      </div>
-      <div class="r-card">
-        <div class="r-head"><div class="r-icon" style="background:#fef3c7">💰</div><div class="r-htitle">Escala de premiación</div></div>
-        <div class="r-body">
-          <div class="premio-grid">
+        <div class="r-card">
+          <div class="r-head"><div class="r-icon" style="background:#fef3c7">💰</div><div class="r-htitle">Escala de premiación</div></div>
+          <div class="r-body"><div class="premio-grid">
             <div class="premio-row"><span class="premio-pct">100%</span><span class="premio-val">$150.000</span></div>
             <div class="premio-row hi"><span class="premio-pct">101% – 110%</span><span class="premio-val">$170.000</span></div>
             <div class="premio-row hi"><span class="premio-pct">111% – 120%</span><span class="premio-val">$180.000</span></div>
             <div class="premio-row hi"><span class="premio-pct">121% o más</span><span class="premio-val">$200.000</span></div>
-          </div>
+          </div></div>
         </div>
-      </div>
-      <div class="r-card">
-        <div class="r-head"><div class="r-icon" style="background:#e0e7ff">📅</div><div class="r-htitle">Fechas importantes</div></div>
-        <div class="r-body">
-          <div class="fecha-grid">
+        <div class="r-card">
+          <div class="r-head"><div class="r-icon" style="background:#e0e7ff">📅</div><div class="r-htitle">Fechas importantes</div></div>
+          <div class="r-body"><div class="fecha-grid">
             <div class="fecha-item"><div class="fecha-lbl">Medición de ventas</div><div class="fecha-val">01/05 – 31/05/2026</div></div>
             <div class="fecha-item"><div class="fecha-lbl">Medición de averías</div><div class="fecha-val">01/06 – 30/06/2026</div></div>
             <div class="fecha-item"><div class="fecha-lbl">Revisión de resultados</div><div class="fecha-val">Primeros 5 días hábiles de julio</div></div>
             <div class="fecha-item"><div class="fecha-lbl">Pago de premiación</div><div class="fecha-val">Primera quincena de julio</div></div>
+          </div></div>
+        </div>
+      </div>
+
+      <div id="tab-admin" class="tab-pane">
+        <div class="admin-panel">
+          <div class="admin-topbar">
+            <h2>🛡️ Gestión de Usuarios</h2>
+            <button class="admin-export-btn" onclick="exportarHTML()">⬇️ Descargar HTML actualizado</button>
+          </div>
+          <div class="admin-info">
+            Cambia la contraseña de cualquier usuario y haz clic en <strong>Guardar</strong>. Los cambios son inmediatos en este dispositivo.<br>
+            Para que apliquen en <strong>todos los dispositivos</strong>, descarga el HTML actualizado y súbelo al servidor.
+          </div>
+          <div class="admin-filter">
+            <select onchange="renderAdminTable(this.value)">
+              <option value="">Todos los roles</option>
+              <option value="ADMIN">Admin</option>
+              <option value="COORDINADOR">Coordinador</option>
+              <option value="VENDEDOR">Vendedor</option>
+            </select>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Rol</th><th>Usuario</th><th>Filtro</th><th>Contraseña</th><th></th></tr></thead>
+              <tbody id="admin-tbody"></tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
 
+    </div>
+  </div>
+
+  <div id="ven-solo">
+    <div style="padding:12px;max-width:700px;margin:0 auto">
+      <div id="ven-solo-card"></div>
+    </div>
   </div>
 </div>
 
@@ -248,358 +320,369 @@ tbody tr:last-child td{border-bottom:none}
 // ════════════════════════════════════════════════
 const CONFIG = {
   CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdTCMBF02k_dz9xmgFzJIJS0wJ7b2GiStLBcJ3MyH25yfwYSqjNMOiM6J476-gGFxUOlWZO_egs-yd/pub?gid=0&single=true&output=csv',
-  COL: {
-    region:   'REGION',
-    grupo:    'GRUPO',
-    vendedor: 'VENDEDOR',
-    pdv:      'PUNTO DE VENTA',
-    venta900: 'VENTA REAL 900G',
-    venta450: 'VENTA 450G',
-    meta900:  'META MAYO 900G',
-    meta450:  'META MAYO 450G',
-    fecha:    'FECHA DE VENTA',
-  },
-  // Días hábiles mayo 2026 (lun-sáb, sin festivos)
-  TOTAL_DH: 24,
-  FESTIVOS: new Set(['2026-05-01','2026-05-18']),
-  // Margen de alerta (puntos porcentuales)
-  MARGEN: 3,
+  COL:{region:'REGION',grupo:'GRUPO',vendedor:'VENDEDOR',pdv:'PUNTO DE VENTA',venta900:'VENTA REAL 900G',venta450:'VENTA 450G',meta900:'META MAYO 900G',meta450:'META MAYO 450G',fecha:'FECHA DE VENTA'},
+  TOTAL_DH:24,
+  FESTIVOS:new Set(['2026-05-01','2026-05-18']),
+  MARGEN:3,
+
+  // ── USUARIOS BASE — el admin puede cambiar contraseñas desde el panel
+  USUARIOS_BASE:[
+    {rol:'ADMIN',       usuario:'admin',   password:'admin123',  filtro:''},
+    {rol:'COORDINADOR', usuario:'coord1',  password:'coord1123', filtro:'A_BOG'},
+    {rol:'COORDINADOR', usuario:'coord2',  password:'coord2123', filtro:'A_ARM,A_PER'},
+    {rol:'COORDINADOR', usuario:'coord3',  password:'coord3123', filtro:'A_POB,A_MZL'},
+    {rol:'VENDEDOR',    usuario:'ARMAS1',  password:'5460',      filtro:'ARMAS1'},
+    {rol:'VENDEDOR',    usuario:'PERAS4',  password:'2145',      filtro:'PERAS4'},
+    {rol:'VENDEDOR',    usuario:'ARMAS2',  password:'6168',      filtro:'ARMAS2'},
+    {rol:'VENDEDOR',    usuario:'CHIAS',   password:'3692',      filtro:'CHIAS'},
+    {rol:'VENDEDOR',    usuario:'BOGAS',   password:'5606',      filtro:'BOGAS'},
+    {rol:'VENDEDOR',    usuario:'MGMAS',   password:'5617',      filtro:'MGMAS'},
+    {rol:'VENDEDOR',    usuario:'BOGAS1',  password:'9438',      filtro:'BOGAS1'},
+    {rol:'VENDEDOR',    usuario:'SDAAS',   password:'9459',      filtro:'SDAAS'},
+    {rol:'VENDEDOR',    usuario:'BOGAS2',  password:'5503',      filtro:'BOGAS2'},
+    {rol:'VENDEDOR',    usuario:'BOGAS3',  password:'4385',      filtro:'BOGAS3'},
+    {rol:'VENDEDOR',    usuario:'PERAS1',  password:'8529',      filtro:'PERAS1'},
+    {rol:'VENDEDOR',    usuario:'BOGAS4',  password:'7076',      filtro:'BOGAS4'},
+    {rol:'VENDEDOR',    usuario:'MZLAS4',  password:'6109',      filtro:'MZLAS4'},
+    {rol:'VENDEDOR',    usuario:'NOCAS',   password:'5266',      filtro:'NOCAS'},
+    {rol:'VENDEDOR',    usuario:'MEDAS',   password:'6629',      filtro:'MEDAS'},
+    {rol:'VENDEDOR',    usuario:'ByTAS',   password:'6334',      filtro:'ByTAS'},
+    {rol:'VENDEDOR',    usuario:'CARAS',   password:'8346',      filtro:'CARAS'},
+    {rol:'VENDEDOR',    usuario:'MZLAS1',  password:'8622',      filtro:'MZLAS1'},
+    {rol:'VENDEDOR',    usuario:'MZLAS5',  password:'3060',      filtro:'MZLAS5'},
+    {rol:'VENDEDOR',    usuario:'MZLAS2',  password:'0484',      filtro:'MZLAS2'},
+    {rol:'VENDEDOR',    usuario:'MZLAS3',  password:'3987',      filtro:'MZLAS3'},
+    {rol:'VENDEDOR',    usuario:'PERAS5',  password:'0443',      filtro:'PERAS5'},
+    {rol:'VENDEDOR',    usuario:'LIBAS',   password:'7391',      filtro:'LIBAS'},
+    {rol:'VENDEDOR',    usuario:'NOTAS',   password:'8243',      filtro:'NOTAS'},
+    {rol:'VENDEDOR',    usuario:'OCCAS',   password:'1528',      filtro:'OCCAS'},
+    {rol:'VENDEDOR',    usuario:'SYCAS',   password:'7558',      filtro:'SYCAS'},
+    {rol:'VENDEDOR',    usuario:'PERAS2',  password:'5403',      filtro:'PERAS2'},
+    {rol:'VENDEDOR',    usuario:'PERAS3',  password:'5222',      filtro:'PERAS3'},
+  ],
 };
 // ════════════════════════════════════════════════
 
-let R   = {};
-let TOT = {m9:0,v9:0,m4:0,v4:0};
-let AVANCE = 0;   // % avance del mes calculado desde FECHA DE VENTA
-let DH_TRANS = 0; // días hábiles transcurridos
-let _uid = 0;
+// ── State
+let R_ALL={}, R={}, TOT={m9:0,v9:0,m4:0,v4:0};
+let AVANCE=0, DH_TRANS=0, _uid=0;
+let SESSION=null;
+let SORT={rnk:'cumpl_asc',ven:'cumpl_asc'};
 
-// Sort state: 'cumpl_asc' | 'cumpl_desc' | 'meta_desc'
-const SORT = { rnk: 'cumpl_asc', ven: 'cumpl_asc', grp: 'cumpl_asc' };
-
-function applySortFn(arr, key, metaKey) {
-  return [...arr].sort((a,b) => {
-    if (key === 'cumpl_desc') return b.pt - a.pt;
-    if (key === 'cumpl_asc')  return a.pt - b.pt;
-    if (key === 'meta_desc')  return (b[metaKey]||0) - (a[metaKey]||0);
-    return a.pt - b.pt;
-  });
+// Usuarios activos = base + overrides de localStorage
+function getUsuarios(){
+  try{
+    const ov=JSON.parse(localStorage.getItem('eleva_usuarios')||'{}');
+    return CONFIG.USUARIOS_BASE.map(u=>{
+      const key=u.rol+'|'+u.usuario;
+      return ov[key] ? {...u, password:ov[key]} : {...u};
+    });
+  }catch(e){return [...CONFIG.USUARIOS_BASE];}
+}
+function savePasswordOverride(rol,usuario,newPass){
+  try{
+    const ov=JSON.parse(localStorage.getItem('eleva_usuarios')||'{}');
+    ov[rol+'|'+usuario]=newPass;
+    localStorage.setItem('eleva_usuarios',JSON.stringify(ov));
+  }catch(e){}
 }
 
-function setSort(ctx, key, el) {
-  SORT[ctx] = key;
-  el.closest('.sort-bar').querySelectorAll('.sort-btn').forEach(b => b.classList.remove('on'));
-  el.classList.add('on');
-  if (ctx === 'rnk') renderNacional();
-  if (ctx === 'ven') renderVenTab();
-  if (ctx === 'grp') renderGrupos();
-}
-
-const uid = () => 'u'+(++_uid);
-const num = s  => parseFloat(String(s||'').replace(/[^\d.-]/g,''))||0;
-const pct = (v,m) => m ? Math.round(v/m*1000)/10 : 0;
-
-// ── Clasificación dinámica vs avance del mes
-const clsD = p => p >= AVANCE ? 'g' : p >= AVANCE - CONFIG.MARGEN ? 'y' : 'r';
-const emoD = p => p >= AVANCE ? '🟢' : p >= AVANCE - CONFIG.MARGEN ? '🟡' : '🔴';
+const uid  = () => 'u'+(++_uid);
+const num  = s => parseFloat(String(s||'').replace(/[^\d.-]/g,''))||0;
+const pct  = (v,m) => m ? Math.round(v/m*1000)/10 : 0;
+const clsD = p => p>=AVANCE?'g':p>=AVANCE-CONFIG.MARGEN?'y':'r';
+const emoD = p => p>=AVANCE?'🟢':p>=AVANCE-CONFIG.MARGEN?'🟡':'🔴';
 const bdg  = p => `<span class="bdg bg-${clsD(p)}">${emoD(p)} ${p}%</span>`;
 const bar  = p => `<div class="prog"><div class="prog-fill fill-${clsD(p)}" style="width:${Math.max(0,Math.min(p,100))}%"></div></div>`;
 
-// ── Días hábiles transcurridos desde 01/05 hasta fechaCorte (inclusive)
-function calcDiasHabiles(fechaCorte) {
-  // Normalizar fecha a YYYY-MM-DD
-  let iso = fechaCorte.trim();
-  // Soporta DD/MM/YYYY o DD/MM o YYYY-MM-DD
-  const m1 = iso.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
-  const m2 = iso.match(/^(\d{1,2})[\/\-](\d{1,2})$/);
-  if (m1) iso = `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
-  else if (m2) iso = `2026-${m2[2].padStart(2,'0')}-${m2[1].padStart(2,'0')}`;
-
-  const inicio = new Date('2026-05-01T00:00:00');
-  const fin    = new Date(iso + 'T00:00:00');
-  if (isNaN(fin.getTime()) || fin < inicio) return 0;
-
-  let count = 0;
-  const d = new Date(inicio);
-  while (d <= fin) {
-    const dow = d.getDay();                          // 0=Dom
-    const key = d.toISOString().slice(0,10);
-    if (dow !== 0 && !CONFIG.FESTIVOS.has(key)) count++;
-    d.setDate(d.getDate()+1);
-  }
-  return count;
+function applySortFn(arr,key,mk){
+  return [...arr].sort((a,b)=>key==='cumpl_desc'?b.pt-a.pt:key==='meta_desc'?(b[mk]||0)-(a[mk]||0):a.pt-b.pt);
+}
+function setSort(ctx,key,el){
+  SORT[ctx]=key;
+  el.closest('.sort-bar').querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  if(ctx==='rnk')renderNacional();
+  if(ctx==='ven')renderVenTab();
 }
 
-// ── CSV parser
 function parseCSV(text){
-  const lines = text.trim().split(/\r?\n/);
-  const hdrs  = csvLine(lines[0]).map(h=>h.trim());
-  return lines.slice(1).filter(l=>l.trim()).map(l=>{
-    const v=csvLine(l), o={};
-    hdrs.forEach((h,i)=>o[h]=(v[i]||'').trim());
-    return o;
-  });
+  const lines=text.trim().split(/\r?\n/);
+  const hdrs=csvLine(lines[0]).map(h=>h.trim());
+  return lines.slice(1).filter(l=>l.trim()).map(l=>{const v=csvLine(l),o={};hdrs.forEach((h,i)=>o[h]=(v[i]||'').trim());return o;});
 }
 function csvLine(line){
   const r=[];let cur='',inQ=false;
-  for(const c of line){
-    if(c==='"')inQ=!inQ;
-    else if(c===','&&!inQ){r.push(cur);cur='';}
-    else cur+=c;
-  }
+  for(const c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){r.push(cur);cur='';}else cur+=c;}
   return r.push(cur),r;
 }
+function calcDiasHabiles(fechaCorte){
+  let iso=fechaCorte.trim();
+  const m1=iso.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  const m2=iso.match(/^(\d{1,2})[\/\-](\d{1,2})$/);
+  if(m1)iso=`${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
+  else if(m2)iso=`2026-${m2[2].padStart(2,'0')}-${m2[1].padStart(2,'0')}`;
+  const inicio=new Date('2026-05-01T00:00:00'),fin=new Date(iso+'T00:00:00');
+  if(isNaN(fin.getTime())||fin<inicio)return 0;
+  let count=0;const d=new Date(inicio);
+  while(d<=fin){const dow=d.getDay(),key=d.toISOString().slice(0,10);if(dow!==0&&!CONFIG.FESTIVOS.has(key))count++;d.setDate(d.getDate()+1);}
+  return count;
+}
 
-// ── Build data
-function build(rows){
-  const C=CONFIG.COL;
-  R={};TOT={m9:0,v9:0,m4:0,v4:0};
-  let fecha='';
-
+function buildAll(rows){
+  const C=CONFIG.COL; R_ALL={}; let fecha='';
   rows.forEach(row=>{
-    const rg=row[C.region]||'Sin Región';
-    const gr=row[C.grupo]||'Sin Grupo';
-    const vn=row[C.vendedor]||'Sin Vendedor';
-    const v9=num(row[C.venta900]), v4=num(row[C.venta450]);
-    const m9=num(row[C.meta900]),  m4=num(row[C.meta450]);
-    const pdv=row[C.pdv]||'';
-    if(!fecha && row[C.fecha]) fecha=row[C.fecha];
-
-    if(!R[rg])R[rg]={m9:0,v9:0,m4:0,v4:0,grupos:{}};
-    if(!R[rg].grupos[gr])R[rg].grupos[gr]={m9:0,v9:0,m4:0,v4:0,ven:{}};
-    if(!R[rg].grupos[gr].ven[vn])R[rg].grupos[gr].ven[vn]={m9:0,v9:0,m4:0,v4:0,cl:[]};
-    R[rg].grupos[gr].ven[vn].cl.push({pdv,v9,v4,m9,m4});
-    [[v9,'v9'],[v4,'v4'],[m9,'m9'],[m4,'m4']].forEach(([val,k])=>{
-      R[rg].grupos[gr].ven[vn][k]+=val;
-      R[rg].grupos[gr][k]+=val;
-      R[rg][k]+=val;
-      TOT[k]+=val;
-    });
+    const rg=row[C.region]||'Sin Región',gr=row[C.grupo]||'Sin Grupo',vn=row[C.vendedor]||'Sin Vendedor';
+    const v9=num(row[C.venta900]),v4=num(row[C.venta450]),m9=num(row[C.meta900]),m4=num(row[C.meta450]),pdv=row[C.pdv]||'';
+    if(!fecha&&row[C.fecha])fecha=row[C.fecha];
+    if(!R_ALL[rg])R_ALL[rg]={m9:0,v9:0,m4:0,v4:0,grupos:{}};
+    if(!R_ALL[rg].grupos[gr])R_ALL[rg].grupos[gr]={m9:0,v9:0,m4:0,v4:0,ven:{}};
+    if(!R_ALL[rg].grupos[gr].ven[vn])R_ALL[rg].grupos[gr].ven[vn]={m9:0,v9:0,m4:0,v4:0,cl:[]};
+    R_ALL[rg].grupos[gr].ven[vn].cl.push({pdv,v9,v4,m9,m4});
+    [[v9,'v9'],[v4,'v4'],[m9,'m9'],[m4,'m4']].forEach(([val,k])=>{R_ALL[rg].grupos[gr].ven[vn][k]+=val;R_ALL[rg].grupos[gr][k]+=val;R_ALL[rg][k]+=val;});
   });
-
-  // Calcular avance
   if(fecha){
-    DH_TRANS = calcDiasHabiles(fecha);
-    AVANCE   = Math.round(DH_TRANS / CONFIG.TOTAL_DH * 1000) / 10;
-
-    // Mostrar fecha en header
-    let display = fecha;
-    const m1=fecha.match(/^(\d{1,2})[\/\-](\d{1,2})/);
-    if(m1) display=m1[1].padStart(2,'0')+'/'+m1[2].padStart(2,'0');
-    const el=document.getElementById('hdr-fecha');
-    el.textContent='📅 Actualizadas al '+display;
-    el.style.display='';
-
-    // Banner avance
-    document.getElementById('av-pct').textContent = AVANCE+'%';
-    document.getElementById('av-sub').textContent = DH_TRANS+' / '+CONFIG.TOTAL_DH+' días hábiles transcurridos';
-    document.getElementById('av-fill').style.width = Math.min(AVANCE,100)+'%';
+    DH_TRANS=calcDiasHabiles(fecha);AVANCE=Math.round(DH_TRANS/CONFIG.TOTAL_DH*1000)/10;
+    let display=fecha;const mx=fecha.match(/^(\d{1,2})[\/\-](\d{1,2})/);if(mx)display=mx[1].padStart(2,'0')+'/'+mx[2].padStart(2,'0');
+    const el=document.getElementById('hdr-fecha');el.textContent='📅 Actualizadas al '+display;el.style.display='';
+    document.getElementById('av-pct').textContent=AVANCE+'%';
+    document.getElementById('av-sub').textContent=DH_TRANS+' / '+CONFIG.TOTAL_DH+' días hábiles transcurridos';
+    document.getElementById('av-fill').style.width=Math.min(AVANCE,100)+'%';
   }
 }
 
-// ── Client table
-function clienteTbl(vd){
-  const rows=[...vd.cl]
-    .filter(c => (c.m9+c.m4) > 0)
-    .map(c=>({...c,pt:pct(c.v9+c.v4,c.m9+c.m4)}))
-    .sort((a,b)=>a.pt-b.pt);
-  if(!rows.length) return '<div class="empty" style="padding:14px;font-size:11px">Sin clientes con meta asignada.</div>';
-  let t=`<table><thead><tr>
-    <th>Punto de Venta</th>
-    <th>V. 900G</th><th>V. 450G</th>
-    <th>M. 900G</th><th>M. 450G</th>
-    <th>Cumpl.</th>
-  </tr></thead><tbody>`;
-  rows.forEach(c=>{
-    t+=`<tr>
-      <td>${c.pdv}</td>
-      <td>${c.v9.toLocaleString()}</td><td>${c.v4.toLocaleString()}</td>
-      <td>${c.m9.toLocaleString()}</td><td>${c.m4.toLocaleString()}</td>
-      <td>${bdg(c.pt)}</td>
-    </tr>`;
+function applyFilter(){
+  R={};TOT={m9:0,v9:0,m4:0,v4:0};
+  const {rol,filtros}=SESSION;
+  Object.entries(R_ALL).forEach(([rg,rd])=>{
+    Object.entries(rd.grupos).forEach(([gr,gd])=>{
+      if(rol==='COORDINADOR'&&!filtros.includes(gr))return;
+      Object.entries(gd.ven).forEach(([vn,vd])=>{
+        if(rol==='VENDEDOR'&&!filtros.includes(vn))return;
+        if(!R[rg])R[rg]={m9:0,v9:0,m4:0,v4:0,grupos:{}};
+        if(!R[rg].grupos[gr])R[rg].grupos[gr]={m9:0,v9:0,m4:0,v4:0,ven:{}};
+        R[rg].grupos[gr].ven[vn]=vd;
+        [[vd.v9,'v9'],[vd.v4,'v4'],[vd.m9,'m9'],[vd.m4,'m4']].forEach(([val,k])=>{R[rg].grupos[gr][k]+=val;R[rg][k]+=val;TOT[k]+=val;});
+      });
+    });
   });
+}
+
+function clienteTbl(vd){
+  const rows=[...vd.cl].filter(c=>(c.m9+c.m4)>0).map(c=>({...c,pt:pct(c.v9+c.v4,c.m9+c.m4)})).sort((a,b)=>a.pt-b.pt);
+  if(!rows.length)return '<div class="empty" style="padding:14px;font-size:11px">Sin clientes con meta asignada.</div>';
+  let t=`<table><thead><tr><th>Punto de Venta</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>Cumpl.</th></tr></thead><tbody>`;
+  rows.forEach(c=>{t+=`<tr><td>${c.pdv}</td><td>${c.v9.toLocaleString()}</td><td>${c.v4.toLocaleString()}</td><td>${c.m9.toLocaleString()}</td><td>${c.m4.toLocaleString()}</td><td>${bdg(c.pt)}</td></tr>`;});
   return t+'</tbody></table>';
 }
 
-// ── Nacional
 function renderNacional(){
-  const tm=TOT.m9+TOT.m4, tv=TOT.v9+TOT.v4;
-  const pt=pct(tv,tm), p9=pct(TOT.v9,TOT.m9), p4=pct(TOT.v4,TOT.m4);
-  let nv=0;
-  Object.values(R).forEach(rd=>Object.values(rd.grupos).forEach(gd=>nv+=Object.keys(gd.ven).length));
-
+  const tm=TOT.m9+TOT.m4,tv=TOT.v9+TOT.v4,pt=pct(tv,tm),p9=pct(TOT.v9,TOT.m9),p4=pct(TOT.v4,TOT.m4);
   document.getElementById('sum-cards').innerHTML=`
     <div class="sum-card"><div class="sum-label">Cumpl. Total</div><div class="sum-value c-${clsD(pt)}">${emoD(pt)} ${pt}%</div><div class="sum-sub">${tv.toLocaleString()} / ${tm.toLocaleString()} un.</div>${bar(pt)}</div>
     <div class="sum-card"><div class="sum-label">Cumpl. 900G</div><div class="sum-value c-${clsD(p9)}">${emoD(p9)} ${p9}%</div><div class="sum-sub">${TOT.v9.toLocaleString()} / ${TOT.m9.toLocaleString()} un.</div>${bar(p9)}</div>
     <div class="sum-card"><div class="sum-label">Cumpl. 450G</div><div class="sum-value c-${clsD(p4)}">${emoD(p4)} ${p4}%</div><div class="sum-sub">${TOT.v4.toLocaleString()} / ${TOT.m4.toLocaleString()} un.</div>${bar(p4)}</div>`;
-
   const rnk=[];
-  Object.entries(R).forEach(([rg,rd])=>
-    Object.entries(rd.grupos).forEach(([gr,gd])=>
-      Object.entries(gd.ven).forEach(([vn,vd])=>{
-        const mt=vd.m9+vd.m4, vt=vd.v9+vd.v4;
-        rnk.push({vn,rg,gr,vd,pt:pct(vt,mt)});
-      })
-    )
-  );
-  rnk.forEach(r => r.mt = r.vd.m9+r.vd.m4);
-  const rnkSorted = applySortFn(rnk, SORT.rnk, 'mt');
-  const M=['🥇','🥈','🥉'];
+  Object.entries(R).forEach(([rg,rd])=>Object.entries(rd.grupos).forEach(([gr,gd])=>Object.entries(gd.ven).forEach(([vn,vd])=>{
+    const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;rnk.push({vn,rg,gr,vd,pt:pct(vt,mt),mt});
+  })));
+  const M=['🥇','🥈','🥉'],sorted=applySortFn(rnk,SORT.rnk,'mt');
   let t=`<table><thead><tr><th>#</th><th>Vendedor</th><th>Grupo</th><th>V. 900G</th><th>V. 450G</th><th>M. 900G</th><th>M. 450G</th><th>V. Total</th><th>M. Total</th><th>Cumpl.</th></tr></thead><tbody>`;
-  rnkSorted.forEach((r,i)=>{
-    const pos = SORT.rnk === 'cumpl_desc' ? (M[i]||i+1) : i+1;
-    t+=`<tr>
-      <td class="med">${pos}</td>
-      <td><strong>${r.vn}</strong></td><td>${r.gr}</td>
-      <td>${r.vd.v9.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td>
-      <td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.m4.toLocaleString()}</td>
-      <td><strong>${(r.vd.v9+r.vd.v4).toLocaleString()}</strong></td><td><strong>${(r.vd.m9+r.vd.m4).toLocaleString()}</strong></td>
-      <td>${bdg(r.pt)}</td>
-    </tr>`;
-  });
+  sorted.forEach((r,i)=>{const pos=SORT.rnk==='cumpl_desc'?(M[i]||i+1):i+1;t+=`<tr><td class="med">${pos}</td><td><strong>${r.vn}</strong></td><td>${r.gr}</td><td>${r.vd.v9.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td><td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.m4.toLocaleString()}</td><td><strong>${(r.vd.v9+r.vd.v4).toLocaleString()}</strong></td><td><strong>${(r.vd.m9+r.vd.m4).toLocaleString()}</strong></td><td>${bdg(r.pt)}</td></tr>`;});
   document.getElementById('ranking-tbl').innerHTML=t+'</tbody></table>';
 }
 
-// ── Por Región
 function renderGrupos(){
   let h='';
   Object.entries(R).forEach(([rg,rd])=>{
-    const mt=rd.m9+rd.m4, vt=rd.v9+rd.v4, pt=pct(vt,mt);
-    const bId=uid(), cId=uid();
-    h+=`<div class="card">
-      <div class="card-hd" onclick="tog('${bId}','${cId}')">
-        <div style="flex:1;min-width:0">
-          <div class="card-title">${rg}</div>
-          <div class="card-sub">${Object.keys(rd.grupos).length} grupos · ${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>
-          ${bar(pt)}
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div>
-      </div>
-      <div class="card-body" id="${bId}">`;
-
-    Object.entries(rd.grupos)
-      .map(([gr,gd])=>{const mt2=gd.m9+gd.m4,vt2=gd.v9+gd.v4;return{gr,gd,pt:pct(vt2,mt2),mt2,vt2};})
-      .sort((a,b)=>b.pt-a.pt)
-      .forEach(({gr,gd,pt,mt2,vt2})=>{
-        const gbId=uid(), gcId=uid();
-        h+=`<div class="nivel-grupo">
-          <div class="nivel-grupo-hd" onclick="tog('${gbId}','${gcId}')">
-            <div style="flex:1;min-width:0">
-              <div class="nivel-grupo-title">${gr}</div>
-              <div class="nivel-grupo-sub">${Object.keys(gd.ven).length} vendedores · ${vt2.toLocaleString()} / ${mt2.toLocaleString()} un.</div>
-              ${bar(pt)}
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${gcId}">▼</span></div>
-          </div>
-          <div class="nivel-grupo-body" id="${gbId}">`;
-
-        Object.entries(gd.ven)
-          .map(([vn,vd])=>{const mt3=vd.m9+vd.m4,vt3=vd.v9+vd.v4;return{vn,vd,pt:pct(vt3,mt3),mt3,vt3};})
-          .sort((a,b)=>a.pt-b.pt)
-          .forEach(({vn,vd,pt,mt3,vt3})=>{
-            const tId=uid();
-            h+=`<div class="vrow" onclick="tog('${tId}')">
-              <div style="flex:1;min-width:0"><div class="vrow-name">${vn}</div><div class="vrow-sub">${vd.cl.length} clientes · ${vt3.toLocaleString()} / ${mt3.toLocaleString()} un.</div></div>
-              <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">${bdg(pt)}<span class="chev">▼</span></div>
-            </div>
-            <div class="tbl-wrap" id="${tId}">${clienteTbl(vd)}</div>`;
-          });
-        h+=`</div></div>`;
+    const mt=rd.m9+rd.m4,vt=rd.v9+rd.v4,pt=pct(vt,mt),bId=uid(),cId=uid();
+    h+=`<div class="card"><div class="card-hd" onclick="tog('${bId}','${cId}')"><div style="flex:1;min-width:0"><div class="card-title">${rg}</div><div class="card-sub">${Object.keys(rd.grupos).length} grupos · ${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>${bar(pt)}</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div></div><div class="card-body" id="${bId}">`;
+    Object.entries(rd.grupos).map(([gr,gd])=>{const mt2=gd.m9+gd.m4,vt2=gd.v9+gd.v4;return{gr,gd,pt:pct(vt2,mt2),mt2,vt2};}).sort((a,b)=>b.pt-a.pt).forEach(({gr,gd,pt,mt2,vt2})=>{
+      const gbId=uid(),gcId=uid();
+      h+=`<div class="nivel-grupo"><div class="nivel-grupo-hd" onclick="tog('${gbId}','${gcId}')"><div style="flex:1;min-width:0"><div class="nivel-grupo-title">${gr}</div><div class="nivel-grupo-sub">${Object.keys(gd.ven).length} vendedores · ${vt2.toLocaleString()} / ${mt2.toLocaleString()} un.</div>${bar(pt)}</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${gcId}">▼</span></div></div><div class="nivel-grupo-body" id="${gbId}">`;
+      Object.entries(gd.ven).map(([vn,vd])=>{const mt3=vd.m9+vd.m4,vt3=vd.v9+vd.v4;return{vn,vd,pt:pct(vt3,mt3),mt3,vt3};}).sort((a,b)=>a.pt-b.pt).forEach(({vn,vd,pt,mt3,vt3})=>{
+        const tId=uid();
+        h+=`<div class="vrow" onclick="tog('${tId}')"><div style="flex:1;min-width:0"><div class="vrow-name">${vn}</div><div class="vrow-sub">${vd.cl.length} clientes · ${vt3.toLocaleString()} / ${mt3.toLocaleString()} un.</div></div><div style="display:flex;align-items:center;gap:4px;flex-shrink:0">${bdg(pt)}<span class="chev">▼</span></div></div><div class="tbl-wrap" id="${tId}">${clienteTbl(vd)}</div>`;
       });
+      h+=`</div></div>`;
+    });
     h+=`</div></div>`;
   });
   document.getElementById('region-list').innerHTML=h;
 }
 
-// ── Filtros vendedores
 function populateFiltros(){
   const rSel=document.getElementById('fil-region');
-  Object.keys(R).sort().forEach(rg=>{
-    const o=document.createElement('option');o.value=rg;o.textContent=rg;rSel.appendChild(o);
-  });
+  rSel.innerHTML='<option value="">Todas las regiones</option>';
+  Object.keys(R).sort().forEach(rg=>{const o=document.createElement('option');o.value=rg;o.textContent=rg;rSel.appendChild(o);});
+  onRegionChange();
 }
 function onRegionChange(){
-  const rg=document.getElementById('fil-region').value;
-  const gSel=document.getElementById('fil-grupo');
+  const rg=document.getElementById('fil-region').value,gSel=document.getElementById('fil-grupo');
   gSel.innerHTML='<option value="">Todos los grupos</option>';
-  const grupos=rg
-    ? Object.keys(R[rg]?.grupos||{})
-    : [...new Set(Object.values(R).flatMap(rd=>Object.keys(rd.grupos)))];
+  const grupos=rg?Object.keys(R[rg]?.grupos||{}):[...new Set(Object.values(R).flatMap(rd=>Object.keys(rd.grupos)))];
   grupos.sort().forEach(gr=>{const o=document.createElement('option');o.value=gr;o.textContent=gr;gSel.appendChild(o);});
   renderVenTab();
 }
-
-// ── Vendedores colapsable
 function renderVenTab(){
-  const rg=document.getElementById('fil-region').value;
-  const gf=document.getElementById('fil-grupo').value;
-  const q=document.getElementById('fil-q').value.toLowerCase();
+  const rg=document.getElementById('fil-region').value,gf=document.getElementById('fil-grupo').value,q=document.getElementById('fil-q').value.toLowerCase();
   let h='';
   Object.entries(R).forEach(([region,rd])=>{
     if(rg&&region!==rg)return;
     Object.entries(rd.grupos).forEach(([gr,gd])=>{
       if(gf&&gr!==gf)return;
-      const vens=Object.entries(gd.ven).filter(([vn,vd])=>{
-        if(!q)return true;
-        return vn.toLowerCase().includes(q)||vd.cl.some(c=>c.pdv.toLowerCase().includes(q));
-      });
+      const vens=Object.entries(gd.ven).filter(([vn,vd])=>!q||vn.toLowerCase().includes(q)||vd.cl.some(c=>c.pdv.toLowerCase().includes(q)));
       if(!vens.length)return;
-      applySortFn(
-        vens.map(([vn,vd])=>{const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;return{vn,vd,pt:pct(vt,mt),mt,vt};}),
-        SORT.ven, 'mt'
-      ).forEach(({vn,vd,pt,mt,vt})=>{
-          const bId=uid(), cId=uid();
-          h+=`<div class="card">
-            <div class="card-hd" onclick="tog('${bId}','${cId}')">
-              <div style="flex:1;min-width:0">
-                <div class="card-title">${vn}</div>
-                <div class="card-sub">${region} · ${gr} · ${vd.cl.length} clientes</div>
-                <div style="font-size:11px;color:#aaa;margin-top:3px">${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>
-                ${bar(pt)}
-              </div>
-              <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div>
-            </div>
-            <div class="card-body" id="${bId}">
-              <div class="tbl-wrap open">${clienteTbl(vd)}</div>
-            </div>
-          </div>`;
-        });
+      applySortFn(vens.map(([vn,vd])=>{const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;return{vn,vd,pt:pct(vt,mt),mt,vt};}),SORT.ven,'mt').forEach(({vn,vd,pt,mt,vt})=>{
+        const bId=uid(),cId=uid();
+        h+=`<div class="card"><div class="card-hd" onclick="tog('${bId}','${cId}')"><div style="flex:1;min-width:0"><div class="card-title">${vn}</div><div class="card-sub">${region} · ${gr} · ${vd.cl.length} clientes</div><div style="font-size:11px;color:#aaa;margin-top:3px">${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>${bar(pt)}</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0">${bdg(pt)}<span class="chev" id="${cId}">▼</span></div></div><div class="card-body" id="${bId}"><div class="tbl-wrap open">${clienteTbl(vd)}</div></div></div>`;
+      });
     });
   });
-  document.getElementById('ven-list').innerHTML=h||'<div class="empty">Sin resultados para ese filtro.</div>';
+  document.getElementById('ven-list').innerHTML=h||'<div class="empty">Sin resultados.</div>';
+}
+
+function renderVenSolo(){
+  const vn=SESSION.filtros[0];let found=null,fR='',fG='';
+  Object.entries(R).forEach(([rg,rd])=>Object.entries(rd.grupos).forEach(([gr,gd])=>{if(gd.ven[vn]){found=gd.ven[vn];fR=rg;fG=gr;}}));
+  if(!found){document.getElementById('ven-solo-card').innerHTML='<div class="empty">No se encontraron datos.</div>';return;}
+  const mt=found.m9+found.m4,vt=found.v9+found.v4,pt=pct(vt,mt);
+  document.getElementById('ven-solo-card').innerHTML=`<div class="card"><div class="card-hd" style="cursor:default"><div style="flex:1;min-width:0"><div class="card-title">${vn}</div><div class="card-sub">${fR} · ${fG} · ${found.cl.length} clientes</div><div style="font-size:11px;color:#aaa;margin-top:3px">${vt.toLocaleString()} / ${mt.toLocaleString()} un.</div>${bar(pt)}</div><div style="margin-left:10px">${bdg(pt)}</div></div><div class="card-body open"><div class="tbl-wrap open">${clienteTbl(found)}</div></div></div>`;
+}
+
+// ── Admin panel
+function renderAdminTable(rolFilter=''){
+  const usuarios=getUsuarios().filter(u=>!rolFilter||u.rol===rolFilter);
+  const rolColors={ADMIN:'rol-ADMIN',COORDINADOR:'rol-COORDINADOR',VENDEDOR:'rol-VENDEDOR'};
+  let h='';
+  usuarios.forEach((u,i)=>{
+    h+=`<tr>
+      <td><span class="rol-badge ${rolColors[u.rol]||''}">${u.rol}</span></td>
+      <td><strong>${u.usuario}</strong></td>
+      <td style="color:#aaa;font-size:11px">${u.filtro||'—'}</td>
+      <td><input class="pass-input" type="text" id="pass_${i}" value="${u.password}" oninput="this.classList.add('changed')"></td>
+      <td><button class="save-btn" id="savebtn_${i}" onclick="guardarPassword('${u.rol}','${u.usuario}',${i})">Guardar</button></td>
+    </tr>`;
+  });
+  document.getElementById('admin-tbody').innerHTML=h;
+}
+
+function guardarPassword(rol,usuario,i){
+  const input=document.getElementById('pass_'+i);
+  const newPass=input.value.trim();
+  if(!newPass){alert('La contraseña no puede estar vacía.');return;}
+  savePasswordOverride(rol,usuario,newPass);
+  input.classList.remove('changed');
+  const btn=document.getElementById('savebtn_'+i);
+  btn.textContent='✓ Guardado';btn.classList.add('saved');
+  setTimeout(()=>{btn.textContent='Guardar';btn.classList.remove('saved');},2000);
+}
+
+function exportarHTML(){
+  // Leer passwords actuales (base + overrides)
+  const usuarios=getUsuarios();
+  // Serializar como JS array
+  const arr=JSON.stringify(usuarios,null,4)
+    .replace(/"rol"/g,    'rol')
+    .replace(/"usuario"/g,'usuario')
+    .replace(/"password"/g,'password')
+    .replace(/"filtro"/g, 'filtro');
+
+  // Obtener el HTML actual y reemplazar el bloque USUARIOS_BASE
+  const html=document.documentElement.outerHTML;
+  const updated=html.replace(
+    /USUARIOS_BASE:\[[\s\S]*?\],(\s*\/\/ ════)/,
+    'USUARIOS_BASE:'+arr+',\n  $1'
+  );
+
+  const blob=new Blob([updated],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='eleva-tu-nivel.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 // ── Helpers
-function tog(bId,cId){
-  const b=document.getElementById(bId);if(!b)return;
-  b.classList.toggle('open');
-  if(cId){const c=document.getElementById(cId);if(c)c.classList.toggle('open');}
-}
+function tog(bId,cId){const b=document.getElementById(bId);if(!b)return;b.classList.toggle('open');if(cId){const c=document.getElementById(cId);if(c)c.classList.toggle('open');}}
 function switchTab(tab,el){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
   document.getElementById('tab-'+tab).classList.add('on');
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
+  if(tab==='admin')renderAdminTable();
 }
 
-// ── Init
-async function init(){
-  try{
-    const res=await fetch(CONFIG.CSV_URL);
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    build(parseCSV(await res.text()));
-    renderNacional();
-    renderGrupos();
-    populateFiltros();
-    onRegionChange();
+// ── Login
+let selectedRole=null;
+function selectRole(role,el){
+  selectedRole=role;
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('login-form').classList.add('show');
+  document.getElementById('inp-user').focus();
+  document.getElementById('login-error').textContent='';
+}
+function doLogin(){
+  const user=document.getElementById('inp-user').value.trim();
+  const pass=document.getElementById('inp-pass').value.trim();
+  const errEl=document.getElementById('login-error');
+  if(!selectedRole){errEl.textContent='Selecciona un perfil primero.';return;}
+  if(!user||!pass){errEl.textContent='Ingresa usuario y contraseña.';return;}
+  const usuarios=getUsuarios();
+  const match=usuarios.find(u=>u.rol===selectedRole&&u.usuario.toLowerCase()===user.toLowerCase()&&u.password===pass);
+  if(!match){errEl.textContent='Usuario o contraseña incorrectos.';return;}
+  const filtros=match.filtro?match.filtro.split(',').map(f=>f.trim()).filter(Boolean):[];
+  SESSION={rol:match.rol,usuario:match.usuario,filtros};
+  sessionStorage.setItem('eleva_session',JSON.stringify(SESSION));
+  launchApp();
+}
+function logout(){
+  sessionStorage.removeItem('eleva_session');SESSION=null;
+  document.getElementById('app-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('inp-user').value='';document.getElementById('inp-pass').value='';
+  document.getElementById('login-error').textContent='';
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('login-form').classList.remove('show');
+  selectedRole=null;
+}
+
+function launchApp(){
+  const roleLabel={ADMIN:'🛡️ Admin',COORDINADOR:'📊 Coordinador',VENDEDOR:'🛒 Vendedor'};
+  document.getElementById('hdr-badge').textContent=roleLabel[SESSION.rol]+' · '+SESSION.usuario;
+  applyFilter();
+  const isVen=SESSION.rol==='VENDEDOR';
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
+  document.getElementById('main-tabs').style.display=isVen?'none':'flex';
+  document.getElementById('avance-wrap').style.display='block';
+  document.getElementById('tabs-wrap').style.display=isVen?'none':'block';
+  document.getElementById('ven-solo').style.display=isVen?'block':'none';
+  if(SESSION.rol==='ADMIN') document.getElementById('tab-admin-btn').style.display='block';
+  if(isVen){renderVenSolo();}
+  else{
     document.getElementById('loading').style.display='none';
-    document.getElementById('app').style.display='block';
-  }catch(e){
-    document.getElementById('loading').innerHTML=`
-      <strong style="color:#dc2626">❌ Error al cargar datos</strong><br>
-      <small style="color:#999">Verifica que el Google Sheet esté publicado como CSV.<br>${e.message}</small>`;
+    document.getElementById('tab-data').style.display='block';
+    renderNacional();renderGrupos();populateFiltros();
   }
 }
 
+async function init(){
+  try{const saved=sessionStorage.getItem('eleva_session');if(saved)SESSION=JSON.parse(saved);}catch(e){SESSION=null;}
+  try{
+    const res=await fetch(CONFIG.CSV_URL);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    buildAll(parseCSV(await res.text()));
+  }catch(e){
+    document.getElementById('loading').innerHTML=`<strong style="color:#dc2626">❌ Error al cargar datos</strong><br><small>${e.message}</small>`;
+    return;
+  }
+  if(SESSION){
+    const valid=getUsuarios().find(u=>u.rol===SESSION.rol&&u.usuario===SESSION.usuario);
+    if(valid)launchApp();else{SESSION=null;sessionStorage.removeItem('eleva_session');}
+  }
+}
 init();
 </script>
 </body>
