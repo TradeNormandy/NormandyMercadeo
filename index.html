@@ -659,7 +659,7 @@ function launchApp(){
   document.getElementById('avance-wrap').style.display='block';
   document.getElementById('tabs-wrap').style.display=isVen?'none':'block';
   document.getElementById('ven-solo').style.display=isVen?'block':'none';
-  if(SESSION.rol==='ADMIN') document.getElementById('tab-admin-btn').style.display='block';
+  document.getElementById('tab-admin-btn').style.display=SESSION.rol==='ADMIN'?'block':'none';
   if(isVen){renderVenSolo();}
   else{
     document.getElementById('loading').style.display='none';
