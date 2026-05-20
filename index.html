@@ -101,6 +101,9 @@ tbody tr:last-child td{border-bottom:none}
 .sort-btn{padding:7px 11px;border:1px solid #e5e7eb;border-radius:20px;font-size:11px;font-weight:600;background:#fff;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;user-select:none}
 .sort-btn:hover{border-color:#302b63;color:#302b63}
 .sort-btn.on{background:#302b63;color:#fff;border-color:#302b63}
+.ref-btn{padding:7px 14px;border:1px solid #e5e7eb;border-radius:20px;font-size:12px;font-weight:700;background:#fff;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;user-select:none}
+.ref-btn:hover{border-color:#302b63;color:#302b63}
+.ref-btn.on{background:#302b63;color:#fff;border-color:#302b63}
 #loading{text-align:center;padding:80px 20px;color:#aaa;font-size:14px;line-height:1.8}
 .empty{color:#bbb;text-align:center;padding:40px;font-size:13px}
 /* ADMIN panel */
@@ -219,6 +222,14 @@ tbody tr:last-child td{border-bottom:none}
         <span class="av-pill bg-r">🔴 Más de 3 pts abajo</span>
       </div>
       <div class="av-prog"><div class="av-track"><div class="av-fill" id="av-fill" style="width:0%"></div></div></div>
+      <div class="av-ref" style="width:100%;margin-top:10px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#aaa;margin-bottom:6px">Ver referencia</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="ref-btn" onclick="setRef('900',this)">🥛 900G</button>
+          <button class="ref-btn" onclick="setRef('450',this)">🥤 450G</button>
+          <button class="ref-btn on" onclick="setRef('total',this)">📊 Total</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -413,6 +424,7 @@ let R_ALL={}, R={}, TOT={m9:0,v9:0,m4:0,v4:0};
 let AVANCE=0, DH_TRANS=0, _uid=0;
 let SESSION=null;
 let SORT={rnk:'cumpl_asc',ven:'cumpl_asc'};
+let REF='total'; // '900' | '450' | 'total'
 
 // Usuarios activos = base + overrides de localStorage
 function getUsuarios(){
@@ -449,6 +461,22 @@ function setSort(ctx,key,el){
   el.classList.add('on');
   if(ctx==='rnk')renderNacional();
   if(ctx==='ven')renderVenTab();
+}
+
+function setRef(ref,el){
+  REF=ref;
+  document.querySelectorAll('.ref-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  // Re-render current visible tab
+  const activeTab=document.querySelector('#tab-data .tab-pane.on');
+  if(activeTab){
+    const id=activeTab.id;
+    if(id==='tab-nacional')renderNacional();
+    else if(id==='tab-grupos')renderGrupos();
+    else if(id==='tab-vendedores')renderVenTab();
+  }
+  // Re-render vendor solo if visible
+  if(document.getElementById('ven-solo-wrap').style.display!=='none') renderVenSolo();
 }
 
 function parseCSV(text){
@@ -513,23 +541,31 @@ function applyFilter(){
   });
 }
 
+function refCols(c){
+  if(REF==='900') return {m:c.m9,v:c.v9,p:pct(c.v9,c.m9),label:'900G'};
+  if(REF==='450') return {m:c.m4,v:c.v4,p:pct(c.v4,c.m4),label:'450G'};
+  return {m:c.m9+c.m4,v:c.v9+c.v4,p:pct(c.v9+c.v4,c.m9+c.m4),label:'Total'};
+}
+
 function clienteTbl(vd){
   const rows=[...vd.cl].filter(c=>(c.m9+c.m4)>0).map(c=>({...c,
-    p9:pct(c.v9,c.m9), p4:pct(c.v4,c.m4), pt:pct(c.v9+c.v4,c.m9+c.m4)
+    pt:pct(c.v9+c.v4,c.m9+c.m4)
   })).sort((a,b)=>a.pt-b.pt);
   if(!rows.length)return '<div class="empty" style="padding:14px;font-size:11px">Sin clientes con meta asignada.</div>';
+  const refLabel=REF==='900'?'900G':REF==='450'?'450G':'Total';
   let t=`<table><thead><tr>
     <th>Punto de Venta</th>
-    <th>M. 900G</th><th>V. 900G</th><th>C. 900G</th>
-    <th>M. 450G</th><th>V. 450G</th><th>C. 450G</th>
-    <th>M. Total</th><th>V. Total</th><th>C. Total</th>
+    <th>Meta ${refLabel}</th><th>Venta ${refLabel}</th><th>Cumpl. ${refLabel}</th>
+    <th>Cumpl. Total</th>
   </tr></thead><tbody>`;
-  rows.forEach(c=>{t+=`<tr>
-    <td>${c.pdv}</td>
-    <td>${c.m9.toLocaleString()}</td><td>${c.v9.toLocaleString()}</td><td>${bdg(c.p9)}</td>
-    <td>${c.m4.toLocaleString()}</td><td>${c.v4.toLocaleString()}</td><td>${bdg(c.p4)}</td>
-    <td><strong>${(c.m9+c.m4).toLocaleString()}</strong></td><td><strong>${(c.v9+c.v4).toLocaleString()}</strong></td><td>${bdg(c.pt)}</td>
-  </tr>`;});
+  rows.forEach(c=>{
+    const r=refCols(c);
+    t+=`<tr>
+      <td>${c.pdv}</td>
+      <td>${r.m.toLocaleString()}</td><td>${r.v.toLocaleString()}</td><td>${bdg(r.p)}</td>
+      <td>${bdg(c.pt)}</td>
+    </tr>`;
+  });
   return t+'</tbody></table>';
 }
 
@@ -544,20 +580,19 @@ function renderNacional(){
     const mt=vd.m9+vd.m4,vt=vd.v9+vd.v4;rnk.push({vn,rg,gr,vd,pt:pct(vt,mt),mt});
   })));
   const M=['🥇','🥈','🥉'],sorted=applySortFn(rnk,SORT.rnk,'mt');
+  const refLabel=REF==='900'?'900G':REF==='450'?'450G':'Total';
   let t=`<table><thead><tr>
     <th>#</th><th>Vendedor</th><th>Grupo</th>
-    <th>M. 900G</th><th>V. 900G</th><th>C. 900G</th>
-    <th>M. 450G</th><th>V. 450G</th><th>C. 450G</th>
-    <th>M. Total</th><th>V. Total</th><th>C. Total</th>
+    <th>Meta ${refLabel}</th><th>Venta ${refLabel}</th><th>Cumpl. ${refLabel}</th>
+    <th>Cumpl. Total</th>
   </tr></thead><tbody>`;
   sorted.forEach((r,i)=>{
     const pos=SORT.rnk==='cumpl_desc'?(M[i]||i+1):i+1;
-    const p9=pct(r.vd.v9,r.vd.m9), p4=pct(r.vd.v4,r.vd.m4);
+    const rv=refCols({m9:r.vd.m9,v9:r.vd.v9,m4:r.vd.m4,v4:r.vd.v4});
     t+=`<tr>
       <td class="med">${pos}</td><td><strong>${r.vn}</strong></td><td>${r.gr}</td>
-      <td>${r.vd.m9.toLocaleString()}</td><td>${r.vd.v9.toLocaleString()}</td><td>${bdg(p9)}</td>
-      <td>${r.vd.m4.toLocaleString()}</td><td>${r.vd.v4.toLocaleString()}</td><td>${bdg(p4)}</td>
-      <td><strong>${(r.vd.m9+r.vd.m4).toLocaleString()}</strong></td><td><strong>${(r.vd.v9+r.vd.v4).toLocaleString()}</strong></td><td>${bdg(r.pt)}</td>
+      <td>${rv.m.toLocaleString()}</td><td>${rv.v.toLocaleString()}</td><td>${bdg(rv.p)}</td>
+      <td>${bdg(r.pt)}</td>
     </tr>`;});
   document.getElementById('ranking-tbl').innerHTML=t+'</tbody></table>';
 }
