@@ -199,6 +199,12 @@ tbody tr:last-child td{border-bottom:none}
     <div class="tab" id="tab-admin-btn" style="display:none" onclick="switchTab('admin',this)">🛡️ Usuarios</div>
   </div>
 
+  <!-- Tabs vendedor — misma posición visual que main-tabs -->
+  <div class="tabs" id="ven-tabs" style="display:none">
+    <div class="tab on" onclick="switchVenTab('ven-solo-wrap',this)">🛒 Mi Ruta</div>
+    <div class="tab" onclick="switchVenTab('ven-reglas-wrap',this)">📋 Reglas</div>
+  </div>
+
   <div class="wrap" id="avance-wrap" style="display:none">
     <div class="avance-banner">
       <div class="avance-left">
@@ -305,12 +311,6 @@ tbody tr:last-child td{border-bottom:none}
       </div>
 
     </div>
-  </div>
-
-  <!-- Tabs simplificados para vendedor -->
-  <div class="tabs" id="ven-tabs" style="display:none">
-    <div class="tab on" onclick="switchVenTab('ven-solo-wrap',this)">🛒 Mi Ruta</div>
-    <div class="tab" onclick="switchVenTab('ven-reglas-wrap',this)">📋 Reglas</div>
   </div>
 
   <div id="ven-solo">
