@@ -639,6 +639,13 @@ function doLogin(){
 }
 function logout(){
   sessionStorage.removeItem('eleva_session');SESSION=null;
+  // Resetear tabs al estado inicial
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  const firstTab=document.querySelector('#tab-nacional');
+  if(firstTab)firstTab.classList.add('on');
+  const firstTabBtn=document.querySelector('.tab');
+  if(firstTabBtn)firstTabBtn.classList.add('on');
   document.getElementById('app-screen').style.display='none';
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('inp-user').value='';document.getElementById('inp-pass').value='';
