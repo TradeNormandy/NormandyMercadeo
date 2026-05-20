@@ -156,7 +156,7 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- LOGIN -->
 <div id="login-screen">
-  <div class="login-logo">🩵</div>
+  <div class="login-logo">⚡</div>
   <div class="login-title">Eleva tu Nivel</div>
   <div class="login-sub">Yogurt Griego Pro+ · Seguimiento Incentivos</div>
   <div class="role-grid">
@@ -192,10 +192,10 @@ tbody tr:last-child td{border-bottom:none}
   </div>
 
   <div class="tabs" id="main-tabs">
-    <div class="tab on" onclick="switchTab('nacional',this)">🏆 General</div>
-    <div class="tab" onclick="switchTab('grupos',this)">📦 Por Grupo</div>
+    <div class="tab on" onclick="switchTab('nacional',this)">🏆 Nacional</div>
+    <div class="tab" onclick="switchTab('grupos',this)">📦 Por Región</div>
     <div class="tab" onclick="switchTab('vendedores',this)">👤 Vendedores</div>
-    <div class="tab" onclick="switchTab('reglas',this)">📋 Reglas de juego</div>
+    <div class="tab" onclick="switchTab('reglas',this)">📋 Reglas</div>
     <div class="tab" id="tab-admin-btn" style="display:none" onclick="switchTab('admin',this)">🛡️ Usuarios</div>
   </div>
 
@@ -307,9 +307,47 @@ tbody tr:last-child td{border-bottom:none}
     </div>
   </div>
 
+  <!-- Tabs simplificados para vendedor -->
+  <div class="tabs" id="ven-tabs" style="display:none">
+    <div class="tab on" onclick="switchVenTab('ven-solo-wrap',this)">🛒 Mi Ruta</div>
+    <div class="tab" onclick="switchVenTab('ven-reglas-wrap',this)">📋 Reglas</div>
+  </div>
+
   <div id="ven-solo">
-    <div style="padding:12px;max-width:700px;margin:0 auto">
-      <div id="ven-solo-card"></div>
+    <div id="ven-solo-wrap">
+      <div style="padding:12px;max-width:700px;margin:0 auto">
+        <div id="ven-solo-card"></div>
+      </div>
+    </div>
+    <div id="ven-reglas-wrap" style="display:none">
+      <div class="wrap">
+        <div class="r-card">
+          <div class="r-head"><div class="r-icon" style="background:#dcfce7">✅</div><div class="r-htitle">Condiciones para ganar</div></div>
+          <div class="r-body"><ul>
+            <li>Colocar y hacer rotar el número de unidades asignadas en <strong>cada punto de venta</strong> durante el mes de mayo.</li>
+            <li>Cumplir al <strong>95% o más</strong> el presupuesto de lácteos.</li>
+            <li>Las averías de los siguientes productos <strong>no deben superar el 3%</strong> durante junio:<div style="margin-top:6px"><div><span class="cod">01447</span>Yogurt Griego Pot 450G</div><div style="margin-top:3px"><span class="cod">01448</span>Yogurt Griego Pot 900G</div></div></li>
+          </ul></div>
+        </div>
+        <div class="r-card">
+          <div class="r-head"><div class="r-icon" style="background:#fef3c7">💰</div><div class="r-htitle">Escala de premiación</div></div>
+          <div class="r-body"><div class="premio-grid">
+            <div class="premio-row"><span class="premio-pct">100%</span><span class="premio-val">$150.000</span></div>
+            <div class="premio-row hi"><span class="premio-pct">101% – 110%</span><span class="premio-val">$170.000</span></div>
+            <div class="premio-row hi"><span class="premio-pct">111% – 120%</span><span class="premio-val">$180.000</span></div>
+            <div class="premio-row hi"><span class="premio-pct">121% o más</span><span class="premio-val">$200.000</span></div>
+          </div></div>
+        </div>
+        <div class="r-card">
+          <div class="r-head"><div class="r-icon" style="background:#e0e7ff">📅</div><div class="r-htitle">Fechas importantes</div></div>
+          <div class="r-body"><div class="fecha-grid">
+            <div class="fecha-item"><div class="fecha-lbl">Medición de ventas</div><div class="fecha-val">01/05 – 31/05/2026</div></div>
+            <div class="fecha-item"><div class="fecha-lbl">Medición de averías</div><div class="fecha-val">01/06 – 30/06/2026</div></div>
+            <div class="fecha-item"><div class="fecha-lbl">Revisión de resultados</div><div class="fecha-val">Primeros 5 días hábiles de julio</div></div>
+            <div class="fecha-item"><div class="fecha-lbl">Pago de premiación</div><div class="fecha-val">Primera quincena de julio</div></div>
+          </div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -605,6 +643,12 @@ function exportarHTML(){
 
 // ── Helpers
 function tog(bId,cId){const b=document.getElementById(bId);if(!b)return;b.classList.toggle('open');if(cId){const c=document.getElementById(cId);if(c)c.classList.toggle('open');}}
+function switchVenTab(show,el){
+  ['ven-solo-wrap','ven-reglas-wrap'].forEach(id=>document.getElementById(id).style.display=id===show?'block':'none');
+  document.querySelectorAll('#ven-tabs .tab').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+
 function switchTab(tab,el){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
   document.getElementById('tab-'+tab).classList.add('on');
@@ -638,7 +682,10 @@ function doLogin(){
   launchApp();
 }
 function logout(){
-  sessionStorage.removeItem('eleva_session');SESSION=null;
+  document.getElementById('ven-tabs').style.display='none';
+  document.getElementById('ven-solo-wrap').style.display='block';
+  document.getElementById('ven-reglas-wrap').style.display='none';
+  document.querySelectorAll('#ven-tabs .tab').forEach((b,i)=>{b.classList.toggle('on',i===0);});
   // Resetear tabs al estado inicial
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
@@ -663,6 +710,7 @@ function launchApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app-screen').style.display='block';
   document.getElementById('main-tabs').style.display=isVen?'none':'flex';
+  document.getElementById('ven-tabs').style.display=isVen?'flex':'none';
   document.getElementById('avance-wrap').style.display='block';
   document.getElementById('tabs-wrap').style.display=isVen?'none':'block';
   document.getElementById('ven-solo').style.display=isVen?'block':'none';
