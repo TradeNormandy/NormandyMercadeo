@@ -172,6 +172,9 @@ tbody tr:last-child td{border-bottom:none}
     <input class="login-input" type="password" id="inp-pass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="login-submit" onclick="doLogin()">Ingresar →</button>
     <div class="login-error" id="login-error"></div>
+    <div style="text-align:center;margin-top:16px">
+      <span onclick="resetStorage()" style="font-size:10px;color:rgba(255,255,255,.25);cursor:pointer;text-decoration:underline">¿Problemas para entrar? Restablecer acceso</span>
+    </div>
   </div>
 </div>
 
@@ -779,6 +782,13 @@ function doLogin(){
   sessionStorage.setItem('eleva_session',JSON.stringify(SESSION));
   launchApp();
 }
+function resetStorage(){
+  if(confirm('Esto restablece las contraseñas a los valores originales del archivo. ¿Continuar?')){
+    localStorage.clear();
+    location.reload();
+  }
+}
+
 function logout(){
   document.getElementById('ven-tabs').style.display='none';
   document.getElementById('ven-solo-wrap').style.display='block';
