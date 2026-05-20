@@ -548,7 +548,11 @@ function refCols(c){
 }
 
 function clienteTbl(vd){
-  const rows=[...vd.cl].filter(c=>(c.m9+c.m4)>0).map(c=>({...c,
+  const rows=[...vd.cl].filter(c=>{
+    if(REF==='900') return c.m9>0;
+    if(REF==='450') return c.m4>0;
+    return (c.m9+c.m4)>0;
+  }).map(c=>({...c,
     pt:pct(c.v9+c.v4,c.m9+c.m4)
   })).sort((a,b)=>a.pt-b.pt);
   if(!rows.length)return '<div class="empty" style="padding:14px;font-size:11px">Sin clientes con meta asignada.</div>';
